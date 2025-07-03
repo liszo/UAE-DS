@@ -1,0 +1,17 @@
+{
+  "hero": {
+    "badge": "Next-Gen Digital Solutions",
+    "title": "We craft digital experiences",
+    "description": "Transform your business with AI-powered solutions that drive innovation, boost performance, and deliver exceptional results.",
+    "cta": {
+      "primary": "Start Your Project",
+      "secondary": "View Our Work"
+    }
+  },
+  "nav": {
+    "services": "Services",
+    "cases": "Case Studies",
+    "about": "About Us",
+    "contact": "Let's Talk"
+  }
+}

@@ -1,0 +1,29 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Coverage directory
+coverage
+.nyc_output
+
+# Grunt intermediate storage
+.grunt
+
+# Dependency directories
+node_modules
+jspm_packages
+
+# Optional npm cache directory
+.npm
+
+# Next.js build output
+.next
+
+# Package lock file
+package-lock.json
