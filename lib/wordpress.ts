@@ -1,5 +1,5 @@
 // WordPress API Configuration
-const API_BASE_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://raamdesigns.site/wp-json';
+const API_BASE_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://uaedigitalsolution.agency/wp-json';
 const API_TIMEOUT = 15000; // 15 seconds timeout
 
 // Enhanced fetch with timeout and retry logic
