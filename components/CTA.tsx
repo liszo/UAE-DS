@@ -116,7 +116,7 @@ export default function CTA() {
           className="inline-flex items-center px-3 py-1.5 md:px-4 md:py-2 bg-black/5 rounded-full text-black/60 text-xs md:text-sm font-medium mb-6 md:mb-8"
         >
           <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-          Let's work together
+          Let&apos;s work together
         </motion.div>
 
         {/* Main Heading */}
@@ -129,7 +129,7 @@ export default function CTA() {
 
         {/* Description */}
         <p className="cta-text text-sm md:text-lg lg:text-xl xl:text-2xl text-black/60 mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed">
-          Let's create something extraordinary together. Get in touch and let's discuss how we can transform your digital presence.
+          Let&apos;s create something extraordinary together. Get in touch and let&apos;s discuss how we can transform your digital presence.
         </p>
 
         {/* CTA Buttons */}

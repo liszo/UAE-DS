@@ -719,7 +719,7 @@ export default function CasesPage() {
                         className="w-full px-4 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition-all duration-300 flex items-center justify-center gap-2 text-sm"
                       >
                         <FiMessageCircle className="w-4 h-4" />
-                        Let's Talk
+                        Let&apos;s Talk
                       </motion.button>
                     </Link>
                   </div>

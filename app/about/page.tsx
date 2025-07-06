@@ -258,7 +258,7 @@ export default function AboutPage() {
               <p className={`text-gray-300 leading-relaxed ${
                 isMobile ? 'text-base px-2' : 'text-xl'
               }`}>
-                We're a passionate team of digital innovators, strategists, and creators dedicated to transforming businesses through cutting-edge technology and creative excellence.
+                We&apos;re a passionate team of digital innovators, strategists, and creators dedicated to transforming businesses through cutting-edge technology and creative excellence.
               </p>
               
               {/* Mobile: Key Points Grid */}
@@ -856,7 +856,7 @@ export default function AboutPage() {
                 </h2>
 
                 <p className="text-gray-300 mb-8 leading-relaxed px-4 text-base">
-                  Let's create something amazing together. Get in touch and let's discuss how we can help transform your business.
+                  Let&apos;s create something amazing together. Get in touch and let&apos;s discuss how we can help transform your business.
                 </p>
                 
                 <div className="space-y-4">
@@ -889,7 +889,7 @@ export default function AboutPage() {
                   Ready to Work Together?
                 </h2>
                 <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                  Let's create something amazing together. Get in touch and let's discuss how we can help transform your business.
+                  Let&apos;s create something amazing together. Get in touch and let&apos;s discuss how we can help transform your business.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
                   <Link href="/contact">

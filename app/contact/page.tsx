@@ -297,7 +297,7 @@ export default function ContactPage() {
               <span className={`px-6 py-3 bg-gradient-to-r from-purple-500/20 to-blue-500/20 backdrop-blur-sm rounded-full text-purple-300 border border-purple-500/30 font-medium ${
                 isMobile ? 'text-sm' : ''
               }`}>
-                Let's Connect & Create Magic
+                Let&apos;s Connect & Create Magic
               </span>
             </motion.div>
 
@@ -310,7 +310,7 @@ export default function ContactPage() {
             <p className={`text-gray-300 max-w-4xl mx-auto leading-relaxed ${
               isMobile ? 'text-base px-4' : 'text-xl md:text-2xl'
             }`}>
-              Ready to transform your business? Let's discuss your project and create something 
+              Ready to transform your business? Let&apos;s discuss your project and create something 
               <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent font-semibold"> extraordinary </span>
               together.
             </p>
@@ -407,7 +407,7 @@ export default function ContactPage() {
                     isMobile ? 'text-2xl text-center' : 'text-4xl lg:text-5xl'
                   }`}
                 >
-                  Let's Start a Conversation
+                  Let&apos;s Start a Conversation
                 </motion.h2>
                 <motion.p 
                   initial={{ opacity: 0, y: 20 }}
@@ -417,7 +417,7 @@ export default function ContactPage() {
                     isMobile ? 'text-base text-center px-4' : 'text-lg'
                   }`}
                 >
-                  We're here to help you achieve your digital goals. Reach out to us through any of the channels below or fill out the form to get started.
+                  We&apos;re here to help you achieve your digital goals. Reach out to us through any of the channels below or fill out the form to get started.
                 </motion.p>
               </div>
 
@@ -604,7 +604,7 @@ export default function ContactPage() {
                         <p className={`text-gray-400 ${
                           isMobile ? 'text-sm' : ''
                         }`}>
-                          Tell us about your project and we'll provide you with a detailed quote within 24 hours.
+                          Tell us about your project and we&apos;ll provide you with a detailed quote within 24 hours.
                         </p>
                       </div>
 
@@ -982,7 +982,7 @@ export default function ContactPage() {
             <p className={`text-gray-400 ${
               isMobile ? 'text-base px-4' : 'text-lg'
             }`}>
-              Got questions? We've got answers. Here are the most common questions our clients ask.
+              Got questions? We&apos;ve got answers. Here are the most common questions our clients ask.
             </p>
           </motion.div>
 
@@ -1109,7 +1109,7 @@ export default function ContactPage() {
                 </h2>
 
                 <p className="text-gray-300 mb-8 leading-relaxed px-4 text-base">
-                  Let's turn your vision into reality. Our team is ready to help you achieve your digital goals.
+                  Let&apos;s turn your vision into reality. Our team is ready to help you achieve your digital goals.
                 </p>
                 
                 <div className="space-y-4">
@@ -1140,7 +1140,7 @@ export default function ContactPage() {
                   Ready to Get Started?
                 </h2>
                 <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                  Let's turn your vision into reality. Our team is ready to help you achieve your digital goals.
+                  Let&apos;s turn your vision into reality. Our team is ready to help you achieve your digital goals.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
                   <motion.button

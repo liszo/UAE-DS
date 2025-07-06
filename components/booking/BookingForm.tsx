@@ -110,15 +110,15 @@ export default function BookingForm({ selectedDate, selectedTime, onBack }: Book
             </p>
           </div>
           <p className="text-sm text-gray-600 mb-4">
-            You'll receive a confirmation email with the meeting link shortly.
+            You&apos;ll receive a confirmation email with the meeting link shortly.
           </p>
           <p className="text-sm text-gray-500">
-            Please check your spam folder if you don't receive the email within 5 minutes.
+            Please check your spam folder if you don&apos;t receive the email within 5 minutes.
           </p>
         </div>
-        <a href="/" className="btn-primary">
+        <Link href="/" className="btn-primary">
           Back to Home
-        </a>
+        </Link>
       </div>
     );
   }

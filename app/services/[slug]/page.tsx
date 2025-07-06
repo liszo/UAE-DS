@@ -1241,7 +1241,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                   transition={{ duration: 0.8, delay: 0.4 }}
                   className="text-gray-300 mb-8 leading-relaxed"
                 >
-                  Let's discuss how this service can transform your business. Get started with a free consultation.
+                  Let&apos;s discuss how this service can transform your business. Get started with a free consultation.
                 </motion.p>
                 
                 <motion.div
@@ -1324,7 +1324,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                   viewport={{ once: true }}
                   className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
                 >
-                  Let's discuss how this service can revolutionize your operations and drive unprecedented growth. 
+                  Let&apos;s discuss how this service can revolutionize your operations and drive unprecedented growth. 
                   Get started with a comprehensive consultation today.
                 </motion.p>
                 

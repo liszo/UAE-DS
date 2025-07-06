@@ -1261,7 +1261,7 @@ export default function CasePage({ params }: CasePageProps) {
                 </h2>
 
                 <p className="text-gray-300 mb-8 leading-relaxed px-4">
-                  Let's create your next success story with a comprehensive consultation.
+                  Let&apos;s create your next success story with a comprehensive consultation.
                 </p>
                 
                 <div className="space-y-4">
@@ -1294,7 +1294,7 @@ export default function CasePage({ params }: CasePageProps) {
                         className="w-full px-4 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition-all duration-300 flex items-center justify-center gap-2 text-sm"
                       >
                         <FiMessageCircle className="w-4 h-4" />
-                        Let's Talk
+                        Let&apos;s Talk
                       </motion.button>
                     </Link>
                   </div>
@@ -1307,7 +1307,7 @@ export default function CasePage({ params }: CasePageProps) {
                   Ready for Similar Success?
                 </h2>
                 <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-                  Let's create your next success story. Get started with a comprehensive consultation and transform your business today.
+                  Let&apos;s create your next success story. Get started with a comprehensive consultation and transform your business today.
                 </p>
                 
                 <div className="flex flex-wrap gap-6 justify-center">

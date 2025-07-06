@@ -163,7 +163,7 @@ export default function Cases() {
             </span>
           </h2>
           <p className="text-sm md:text-lg lg:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Discover how we've helped businesses transform their digital presence 
+            Discover how we&apos;ve helped businesses transform their digital presence 
             and achieve remarkable results through innovative solutions.
           </p>
         </motion.div>

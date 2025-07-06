@@ -56,7 +56,7 @@ export default function HeroSection() {
               className="text-xl text-gray-600 mb-8 leading-relaxed"
             >
               We craft exceptional digital experiences that drive growth. 
-              From stunning websites to powerful AI automation, we're your 
+              From stunning websites to powerful AI automation, we&apos;re your 
               partner in digital transformation.
             </motion.p>
 

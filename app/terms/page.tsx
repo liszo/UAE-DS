@@ -9,7 +9,7 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-bold mb-4">1. Acceptance of Terms</h2>
             <p className="mb-4">
-              By accessing and using UAE Digital Solutions' services, you accept and agree 
+              By accessing and using UAE Digital Solutions services, you accept and agree 
               to be bound by the terms and provision of this agreement.
             </p>
           </section>
@@ -33,7 +33,7 @@ export default function TermsPage() {
             <ul className="list-disc pl-6 mb-4">
               <li>Provide accurate and complete information</li>
               <li>Provide timely feedback and approvals</li>
-              <li>Ensure all provided content doesn't infringe on third-party rights</li>
+              <li>Ensure all provided content doesn&apos;t infringe on third-party rights</li>
               <li>Make timely payments as per agreed terms</li>
             </ul>
           </section>

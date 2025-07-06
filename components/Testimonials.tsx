@@ -166,7 +166,7 @@ export default function Testimonials() {
             </span>
           </h2>
           <p className="text-sm md:text-lg lg:text-xl text-white/60 max-w-3xl mx-auto leading-relaxed">
-            Don't just take our word for it. Here's what industry leaders have to say about working with us.
+            Don&apos;t just take our word for it. Here&apos;s what industry leaders have to say about working with us.
           </p>
         </motion.div>
 
@@ -203,7 +203,7 @@ export default function Testimonials() {
 
                   {/* Quote */}
                   <p className={`text-white font-light leading-relaxed mb-6 md:mb-8 ${isMobile ? 'text-base' : 'text-xl md:text-2xl lg:text-3xl'}`}>
-                    "{testimonials[activeIndex].content}"
+                    &quot;{testimonials[activeIndex].content}&quot;
                   </p>
 
                   {/* Author */}
