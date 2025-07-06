@@ -1,7 +1,8 @@
 import { GraphQLClient } from 'graphql-request';
 
 const endpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!;
-const restApiUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://uaedigitalsolution.agency/wp-json/wp/v2';
+// Remove the /wp/v2 from the base URL since we'll add it in the fetch function
+const restApiUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://uaedigitalsolution.agency';
 
 const graphQLClient = new GraphQLClient(endpoint);
 
@@ -16,9 +17,9 @@ export async function fetchAPI(query: string, variables = {}) {
  }
 }
 
-// REST API fetch function
+// REST API fetch function - FIXED URL construction
 export async function fetchRestAPI(endpoint: string, options: RequestInit = {}) {
- const url = `${restApiUrl}/${endpoint}`;
+ const url = `${restApiUrl}/wp-json/wp/v2/${endpoint}`;
  
  try {
  console.log(`Fetching from REST API: ${url}`);
@@ -70,6 +71,11 @@ export async function testConnection() {
 export async function getServices() {
  console.log('🔄 Fetching services...');
  try {
+ // If CORS error, use proxy
+ if (typeof window !== 'undefined') {
+ const response = await fetch('/api/wordpress/services?_embed=1&per_page=100&status=publish');
+ return await response.json();
+ }
  const data = await fetchRestAPI('services?_embed=1&per_page=100&status=publish');
  return data;
  } catch (error) {
@@ -81,6 +87,11 @@ export async function getServices() {
 export async function getCases() {
  console.log('🔄 Fetching cases...');
  try {
+ // If CORS error, use proxy
+ if (typeof window !== 'undefined') {
+ const response = await fetch('/api/wordpress/cases?_embed=1&per_page=100&status=publish');
+ return await response.json();
+ }
  const data = await fetchRestAPI('cases?_embed=1&per_page=100&status=publish');
  return data;
  } catch (error) {
@@ -92,6 +103,11 @@ export async function getCases() {
 export async function getTestimonials() {
  console.log('🔄 Fetching testimonials...');
  try {
+ // If CORS error, use proxy
+ if (typeof window !== 'undefined') {
+ const response = await fetch('/api/wordpress/testimonials?_embed=1&per_page=100&status=publish');
+ return await response.json();
+ }
  const data = await fetchRestAPI('testimonials?_embed=1&per_page=100&status=publish');
  return data;
  } catch (error) {
@@ -103,6 +119,11 @@ export async function getTestimonials() {
 export async function getTeamMembers() {
  console.log('🔄 Fetching team members...');
  try {
+ // If CORS error, use proxy
+ if (typeof window !== 'undefined') {
+ const response = await fetch('/api/wordpress/team?_embed=1&per_page=100&status=publish');
+ return await response.json();
+ }
  const data = await fetchRestAPI('team?_embed=1&per_page=100&status=publish');
  return data;
  } catch (error) {
