@@ -15,6 +15,14 @@ export async function GET(request: NextRequest) {
       },
     });
     
+    if (!response.ok) {
+      const text = await response.text();
+      return NextResponse.json(
+        { error: `API error: ${response.status}`, details: text },
+        { status: response.status }
+      );
+    }
+    
     const data = await response.json();
     
     // Return with CORS headers
@@ -25,11 +33,22 @@ export async function GET(request: NextRequest) {
         'Access-Control-Allow-Headers': 'Content-Type',
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Proxy error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch data', details: error.message },
       { status: 500 }
     );
   }
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
 }

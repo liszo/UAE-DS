@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+interface RouteParams {
+  params: Promise<{ path: string[] }>;
+}
+
 export async function GET(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  context: RouteParams
 ) {
-  const path = params.path.join('/');
+  const { path } = await context.params;
   const searchParams = request.nextUrl.searchParams.toString();
-  const url = `https://uaedigitalsolution.agency/wp-json/wp/v2/${path}${searchParams ? `?${searchParams}` : ''}`;
+  const url = `https://uaedigitalsolution.agency/wp-json/wp/v2/${path.join('/')}${searchParams ? `?${searchParams}` : ''}`;
   
   console.log('Proxying request to:', url);
   
@@ -41,7 +45,7 @@ export async function GET(
     res.headers.set('Access-Control-Allow-Headers', 'Content-Type');
     
     return res;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Proxy error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch data', details: error.message },
