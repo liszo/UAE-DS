@@ -1,66 +1,82 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-interface RouteParams {
-  params: Promise<{ path: string[] }>;
-}
+const WORDPRESS_API_URL = 'https://uaedigitalsolution.agency/wp-json/wp/v2';
 
 export async function GET(
   request: NextRequest,
-  context: RouteParams
+  { params }: { params: { path: string[] } }
 ) {
-  const { path } = await context.params;
-  const searchParams = request.nextUrl.searchParams.toString();
-  const url = `https://uaedigitalsolution.agency/wp-json/wp/v2/${path.join('/')}${searchParams ? `?${searchParams}` : ''}`;
-  
-  console.log('Proxying request to:', url);
-  
   try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      // Don't forward cookies or auth headers
-      credentials: 'omit',
-    });
+    const path = params.path.join('/');
+    const searchParams = request.nextUrl.searchParams.toString();
+    const url = `${WORDPRESS_API_URL}/${path}${searchParams ? `?${searchParams}` : ''}`;
     
+    console.log('Proxying request to:', url);
+    
+    const response = await fetch(url, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      cache: 'no-store',
+    });
+
     if (!response.ok) {
-      console.error('WordPress API error:', response.status, response.statusText);
-      const text = await response.text();
-      console.error('Response body:', text);
-      
+      console.error(`WordPress API error: ${response.status} ${response.statusText}`);
       return NextResponse.json(
-        { error: `WordPress API error: ${response.status}`, details: text },
+        { error: `WordPress API error: ${response.status}` },
         { status: response.status }
       );
     }
-    
+
     const data = await response.json();
     
-    // Add CORS headers to the response
-    const res = NextResponse.json(data);
-    res.headers.set('Access-Control-Allow-Origin', '*');
-    res.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.headers.set('Access-Control-Allow-Headers', 'Content-Type');
-    
-    return res;
-  } catch (error: any) {
+    return NextResponse.json(data, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+      },
+    });
+  } catch (error) {
     console.error('Proxy error:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch data', details: error.message },
+      { error: 'Failed to fetch data from WordPress' },
       { status: 500 }
     );
   }
 }
 
-export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    },
-  });
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { path: string[] } }
+) {
+  try {
+    const path = params.path.join('/');
+    const body = await request.json();
+    const url = `${WORDPRESS_API_URL}/${path}`;
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: `WordPress API error: ${response.status}` },
+        { status: response.status }
+      );
+    }
+
+    const data = await response.json();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error('Proxy error:', error);
+    return NextResponse.json(
+      { error: 'Failed to send data to WordPress' },
+      { status: 500 }
+    );
+  }
 }

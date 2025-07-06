@@ -16,9 +16,8 @@ export async function fetchAPI(query: string, variables = {}) {
   }
 }
 
-// REST API fetch function - FIXED: No double wp/v2
+// REST API fetch function
 export async function fetchRestAPI(endpoint: string, options: RequestInit = {}) {
-  // Don't add /wp/v2 here since endpoint already contains it
   const url = `${restApiUrl}/wp-json/wp/v2/${endpoint}`;
   
   try {
@@ -71,8 +70,8 @@ export async function testConnection() {
 export async function getServices() {
   console.log('🔄 Fetching services...');
   try {
-    // Always use proxy to avoid CORS
-    const response = await fetch('/api/wordpress/services');
+    // Use proxy endpoint to avoid CORS
+    const response = await fetch('/api/wordpress/services?_embed=1&per_page=100&status=publish');
     if (!response.ok) {
       throw new Error(`Failed to fetch services: ${response.status}`);
     }
@@ -86,8 +85,8 @@ export async function getServices() {
 export async function getCases() {
   console.log('🔄 Fetching cases...');
   try {
-    // Always use proxy to avoid CORS
-    const response = await fetch('/api/wordpress/cases');
+    // Use proxy endpoint to avoid CORS
+    const response = await fetch('/api/wordpress/cases?_embed=1&per_page=100&status=publish');
     if (!response.ok) {
       throw new Error(`Failed to fetch cases: ${response.status}`);
     }
@@ -101,8 +100,8 @@ export async function getCases() {
 export async function getTestimonials() {
   console.log('🔄 Fetching testimonials...');
   try {
-    // Always use proxy to avoid CORS
-    const response = await fetch('/api/wordpress/testimonials');
+    // Use proxy endpoint to avoid CORS
+    const response = await fetch('/api/wordpress/testimonials?_embed=1&per_page=100&status=publish');
     if (!response.ok) {
       throw new Error(`Failed to fetch testimonials: ${response.status}`);
     }
@@ -116,8 +115,8 @@ export async function getTestimonials() {
 export async function getTeamMembers() {
   console.log('🔄 Fetching team members...');
   try {
-    // Always use proxy to avoid CORS
-    const response = await fetch('/api/wordpress/team');
+    // Use proxy endpoint to avoid CORS
+    const response = await fetch('/api/wordpress/team?_embed=1&per_page=100&status=publish');
     if (!response.ok) {
       throw new Error(`Failed to fetch team: ${response.status}`);
     }
