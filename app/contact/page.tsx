@@ -885,21 +885,20 @@ export default function ContactPage() {
  {/* Booking Content */}
  <div className="space-y-6">
  {bookingStep === 1 && (
- <motion.div
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.5 }}
- >
- <Calendar
- selectedDate={selectedDate}
- onDateChange={(date) => {
- setSelectedDate(date);
- setBookingStep(2);
- }}
- isMobile={isMobile}
- />
- </motion.div>
- )}
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+  >
+    <Calendar
+      selectedDate={selectedDate}
+      onSelectDate={(date) => {
+        setSelectedDate(date);
+        setBookingStep(2);
+      }}
+    />
+  </motion.div>
+)}
 
  {bookingStep === 2 && selectedDate && (
  <motion.div
