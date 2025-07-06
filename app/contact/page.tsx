@@ -918,12 +918,12 @@ export default function ContactPage() {
  <TimeSlots
  selectedDate={selectedDate}
  selectedTime={selectedTime}
- onTimeSelect={(time) => {
+ onSelectTime={(time) => {
  setSelectedTime(time);
  setBookingStep(3);
  }}
- isMobile={isMobile}
- />
+ onBack={() => setBookingStep(1)}
+/>
  </motion.div>
  )}
 
