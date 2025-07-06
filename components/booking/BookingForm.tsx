@@ -95,33 +95,33 @@ export default function BookingForm({ selectedDate, selectedTime, onBack }: Book
   };
 
   // Rest of the component remains the same...
-  if (isSuccess) {
-    return (
-      <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-        <div className="mb-6">
-          <FaCalendarCheck className="text-6xl text-green-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold mb-2">Booking Confirmed!</h2>
-          <p className="text-gray-600 mb-4">
-            Your consultation has been scheduled for:
-          </p>
-          <div className="bg-gray-50 rounded-lg p-4 mb-6">
-            <p className="font-semibold">
-              {format(selectedDate, 'EEEE, MMMM d, yyyy')} at {selectedTime}
-            </p>
-          </div>
-          <p className="text-sm text-gray-600 mb-4">
-            You&apos;ll receive a confirmation email with the meeting link shortly.
-          </p>
-          <p className="text-sm text-gray-500">
-            Please check your spam folder if you don&apos;t receive the email within 5 minutes.
+ if (isSuccess) {
+  return (
+    <div className="bg-white rounded-lg shadow-lg p-8 text-center">
+      <div className="mb-6">
+        <FaCalendarCheck className="text-6xl text-green-500 mx-auto mb-4" />
+        <h2 className="text-2xl font-bold mb-2">Booking Confirmed!</h2>
+        <p className="text-gray-600 mb-4">
+          Your consultation has been scheduled for:
+        </p>
+        <div className="bg-gray-50 rounded-lg p-4 mb-6">
+          <p className="font-semibold">
+            {format(selectedDate, 'EEEE, MMMM d, yyyy')} at {selectedTime}
           </p>
         </div>
-        <Link href="/" className="btn-primary">
-          Back to Home
-        </Link>
+        <p className="text-sm text-gray-600 mb-4">
+          You&apos;ll receive a confirmation email with the meeting link shortly.
+        </p>
+        <p className="text-sm text-gray-500">
+          Please check your spam folder if you don&apos;t receive the email within 5 minutes.
+        </p>
       </div>
-    );
-  }
+      <Link href="/" className="btn-primary">
+        Back to Home
+      </Link>
+    </div>
+  );
+}
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
