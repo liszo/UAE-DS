@@ -18,7 +18,7 @@ export async function fetchAPI(query: string, variables = {}) {
 
 // REST API fetch function
 export async function fetchRestAPI(endpoint: string, options: RequestInit = {}) {
-  const url = `${restApiUrl}/wp-json/wp/v2/${endpoint}`;
+  const url = `${restApiUrl}/${endpoint}`;
   
   try {
     console.log(`Fetching from REST API: ${url}`);
