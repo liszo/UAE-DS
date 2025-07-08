@@ -204,7 +204,7 @@ export async function getServices() {
     console.log('🔄 Fetching services...');
     
     // Direct WordPress API call with embed
-    const apiUrl = `${API_BASE_URL}/wp/v2/services?_embed=1&per_page=100&status=publish`;
+    const apiUrl = `${API_BASE_URL}wp/v2/services?_embed=1&per_page=100&status=publish`;
     const response = await fetchWithTimeout(apiUrl, {
       next: { revalidate: 300 }, // Cache for 5 minutes
     });
@@ -236,7 +236,7 @@ export async function getCases() {
     console.log('🔄 Fetching cases...');
     
     // Direct WordPress API call with embed
-    const apiUrl = `${API_BASE_URL}/wp/v2/cases?_embed=1&per_page=100&status=publish`;
+    const apiUrl = `${API_BASE_URL}wp/v2/cases?_embed=1&per_page=100&status=publish`;
     const response = await fetchWithTimeout(apiUrl, {
       next: { revalidate: 300 },
     });
@@ -267,7 +267,7 @@ export async function getTestimonials() {
   try {
     console.log('🔄 Fetching testimonials...');
     
-    const apiUrl = `${API_BASE_URL}/wp/v2/testimonials?_embed=1&per_page=100&status=publish`;
+    const apiUrl = `${API_BASE_URL}wp/v2/testimonials?_embed=1&per_page=100&status=publish`;
     const response = await fetchWithTimeout(apiUrl, {
       next: { revalidate: 600 }, // Cache for 10 minutes
     });
@@ -314,7 +314,7 @@ export async function getTeamMembers() {
   try {
     console.log('🔄 Fetching team members...');
     
-    const apiUrl = `${API_BASE_URL}/wp/v2/team?_embed=1&per_page=100&status=publish`;
+    const apiUrl = `${API_BASE_URL}wp/v2/team?_embed=1&per_page=100&status=publish`;
     const response = await fetchWithTimeout(apiUrl, {
       next: { revalidate: 600 },
     });
@@ -375,7 +375,7 @@ export async function getServiceBySlug(slug: string) {
     }
     
     const cleanSlug = slug.trim().toLowerCase();
-    const apiUrl = `${API_BASE_URL}/wp/v2/services?slug=${encodeURIComponent(cleanSlug)}&_embed=1&status=publish`;
+    const apiUrl = `${API_BASE_URL}wp/v2/services?slug=${encodeURIComponent(cleanSlug)}&_embed=1&status=publish`;
     
     console.log('🌐 Service API URL:', apiUrl);
     
@@ -415,7 +415,7 @@ export async function getCaseBySlug(slug: string) {
     }
     
     const cleanSlug = slug.trim().toLowerCase();
-    const apiUrl = `${API_BASE_URL}/wp/v2/cases?slug=${encodeURIComponent(cleanSlug)}&_embed=1&status=publish`;
+    const apiUrl = `${API_BASE_URL}wp/v2/cases?slug=${encodeURIComponent(cleanSlug)}&_embed=1&status=publish`;
     
     console.log('🌐 Case API URL:', apiUrl);
     
@@ -450,7 +450,7 @@ export async function getBlogPosts() {
   try {
     console.log('🔄 Fetching blog posts...');
     
-    const apiUrl = `${API_BASE_URL}/wp/v2/posts?_embed=1&per_page=100&status=publish`;
+    const apiUrl = `${API_BASE_URL}wp/v2/posts?_embed=1&per_page=100&status=publish`;
     const response = await fetchWithTimeout(apiUrl, {
       next: { revalidate: 300 },
     });
@@ -497,7 +497,7 @@ export async function getPostBySlug(slug: string) {
   try {
     console.log('🔄 Fetching post by slug:', slug);
     
-    const apiUrl = `${API_BASE_URL}/wp/v2/posts?slug=${encodeURIComponent(slug)}&_embed=1&status=publish`;
+    const apiUrl = `${API_BASE_URL}wp/v2/posts?slug=${encodeURIComponent(slug)}&_embed=1&status=publish`;
     const response = await fetchWithTimeout(apiUrl, {
       next: { revalidate: 300 },
     });
@@ -544,7 +544,7 @@ export async function getServiceCategories() {
   try {
     console.log('🔄 Fetching service categories...');
     
-    const apiUrl = `${API_BASE_URL}/wp/v2/service_category?per_page=100`;
+    const apiUrl = `${API_BASE_URL}wp/v2/service_category?per_page=100`;
     const response = await fetchWithTimeout(apiUrl, {
       next: { revalidate: 600 },
     });
@@ -569,7 +569,7 @@ export async function getCaseIndustries() {
   try {
     console.log('🔄 Fetching case industries...');
     
-    const apiUrl = `${API_BASE_URL}/wp/v2/case_category?per_page=100`;
+    const apiUrl = `${API_BASE_URL}wp/v2/case_category?per_page=100`;
     const response = await fetchWithTimeout(apiUrl, {
       next: { revalidate: 600 },
     });
@@ -605,7 +605,7 @@ export async function checkApiHealth() {
   try {
     console.log('🏥 Checking API health...');
     
-    const response = await fetchWithTimeout(`${API_BASE_URL}/wp/v2`, {
+    const response = await fetchWithTimeout(`${API_BASE_URL}wp/v2`, {
       method: 'GET',
       cache: 'no-store'
     });
