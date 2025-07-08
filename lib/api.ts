@@ -15,7 +15,7 @@ export async function fetchAPI(query: string, variables = {}) {
     throw error;
   }
 }
-
+ 
 // REST API fetch function
 export async function fetchRestAPI(endpoint: string, options: RequestInit = {}) {
   const url = `${restApiUrl}/${endpoint}`;
