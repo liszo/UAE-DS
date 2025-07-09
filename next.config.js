@@ -7,7 +7,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'uaedigitalsolution.agency',
+        hostname: 'api.uaedigitalsolution.agency',
         port: '',
         pathname: '/**',
       },

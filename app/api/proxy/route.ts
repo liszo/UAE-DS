@@ -1,7 +1,7 @@
 // app/api/wordpress/[...path]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 
-const WORDPRESS_API_URL = 'https://uaedigitalsolution.agency/wp-json/wp/v2';
+const WORDPRESS_API_URL = 'https://api.uaedigitalsolution.agency/wp-json/wp/v2';
 
 type RouteContext = {
   params: Promise<{ path: string[] }>;

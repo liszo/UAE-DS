@@ -1,7 +1,7 @@
 import { GraphQLClient } from 'graphql-request';
 
 const endpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!;
-const restApiUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://uaedigitalsolution.agency';
+const restApiUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://api.uaedigitalsolution.agency';
 
 const graphQLClient = new GraphQLClient(endpoint);
 
@@ -221,7 +221,7 @@ export async function fetchWordPressData(dataType: 'services' | 'cases' | 'testi
 // Helper function to handle CORS errors
 export async function fetchWithCORS(url: string, options: RequestInit = {}) {
   // If we're in the browser and encountering CORS issues, use the API proxy
-  if (typeof window !== 'undefined' && url.includes('uaedigitalsolution.agency')) {
+  if (typeof window !== 'undefined' && url.includes('api.uaedigitalsolution.agency')) {
     const proxyUrl = `/api/proxy?url=${encodeURIComponent(url)}`;
     return fetch(proxyUrl, options);
   }
