@@ -1,3 +1,4 @@
+// app/api/wordpress/[...path]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 
 const WORDPRESS_API_URL = 'https://uaedigitalsolution.agency/wp-json/wp/v2';
@@ -14,11 +15,25 @@ export async function GET(
     const params = await context.params;
     const path = params.path.join('/');
     const searchParams = request.nextUrl.searchParams.toString();
+    
+    // Build the full URL with query parameters
     const url = `${WORDPRESS_API_URL}/${path}${searchParams ? `?${searchParams}` : ''}`;
     
     console.log('Proxying request to:', url);
     
-    const response = await fetch(url, {
+    // Add default query parameters if not present
+    const finalUrl = new URL(url);
+    if (!finalUrl.searchParams.has('_embed')) {
+      finalUrl.searchParams.append('_embed', '1');
+    }
+    if (!finalUrl.searchParams.has('per_page')) {
+      finalUrl.searchParams.append('per_page', '100');
+    }
+    if (!finalUrl.searchParams.has('status')) {
+      finalUrl.searchParams.append('status', 'publish');
+    }
+    
+    const response = await fetch(finalUrl.toString(), {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

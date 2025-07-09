@@ -67,10 +67,10 @@ const Header = () => {
   useEffect(() => {
     const fetchCaseCategories = async () => {
       try {
-        let response = await fetch(`${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp/v2/case-studies?per_page=50&_embed`);
+        let response = await fetch(`${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp/v2/cases?per_page=50&_embed`);
         
         if (!response.ok) {
-          response = await fetch(`${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp/v2/case_study?per_page=50&_embed`);
+          response = await fetch(`${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp/v2/cases?per_page=50&_embed`);
         }
         
         if (!response.ok) {
