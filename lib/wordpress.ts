@@ -1,9 +1,7 @@
-// WordPress API Configuration
-const API_BASE_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://uaedigitalsolution.agency/wp-json';
-const API_TIMEOUT = 15000; // 15 seconds timeout
+// lib/wordpress.ts
 
 // Enhanced fetch with timeout and retry logic
-async function fetchWithTimeout(url: string, options: RequestInit = {}, timeout = API_TIMEOUT) {
+async function fetchWithTimeout(url: string, options: RequestInit = {}, timeout = 15000) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeout);
   
@@ -13,7 +11,6 @@ async function fetchWithTimeout(url: string, options: RequestInit = {}, timeout 
       signal: controller.signal,
       headers: {
         'Content-Type': 'application/json',
-        'User-Agent': 'NextJS-UAE-Digital',
         ...options.headers,
       }
     });
@@ -128,8 +125,8 @@ function transformService(service: any) {
     
     // Featured image from your actual data structure
     featuredImage: service.featured_image_url || 
-                  service._embedded?.['wp:featuredmedia']?.[0]?.source_url || 
-                  '/api/placeholder/600/400',
+                   service._embedded?.['wp:featuredmedia']?.[0]?.source_url || 
+                   '/api/placeholder/600/400',
     
     // ACF fields
     icon: service.acf?.service_icon || 'fas fa-cog',
@@ -166,8 +163,8 @@ function transformCase(caseStudy: any) {
     
     // Featured image
     featuredImage: caseStudy.featured_image_url || 
-                  caseStudy._embedded?.['wp:featuredmedia']?.[0]?.source_url || 
-                  '/api/placeholder/600/800',
+                   caseStudy._embedded?.['wp:featuredmedia']?.[0]?.source_url || 
+                   '/api/placeholder/600/800',
     
     // ACF fields for case studies - based on your actual data structure
     client: cleanHtmlContent(caseStudy.acf?.client_name || ''),
@@ -198,14 +195,17 @@ function transformCase(caseStudy: any) {
   };
 }
 
-// Fetch Services from WordPress
+// Fetch Services from WordPress using proxy
 export async function getServices() {
   try {
     console.log('🔄 Fetching services...');
     
-    // Direct WordPress API call with embed
-    const apiUrl = `${API_BASE_URL}wp/v2/services?_embed=1&per_page=100&status=publish`;
-    const response = await fetchWithTimeout(apiUrl, {
+    // Use proxy endpoint to avoid CORS
+    const response = await fetchWithTimeout('/api/wordpress/services', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       next: { revalidate: 300 }, // Cache for 5 minutes
     });
     
@@ -230,14 +230,17 @@ export async function getServices() {
   }
 }
 
-// Fetch Cases from WordPress
+// Fetch Cases from WordPress using proxy
 export async function getCases() {
   try {
     console.log('🔄 Fetching cases...');
     
-    // Direct WordPress API call with embed
-    const apiUrl = `${API_BASE_URL}wp/v2/cases?_embed=1&per_page=100&status=publish`;
-    const response = await fetchWithTimeout(apiUrl, {
+    // Use proxy endpoint to avoid CORS
+    const response = await fetchWithTimeout('/api/wordpress/cases', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       next: { revalidate: 300 },
     });
     
@@ -262,13 +265,17 @@ export async function getCases() {
   }
 }
 
-// Fetch Testimonials from WordPress
+// Fetch Testimonials from WordPress using proxy
 export async function getTestimonials() {
   try {
     console.log('🔄 Fetching testimonials...');
     
-    const apiUrl = `${API_BASE_URL}wp/v2/testimonials?_embed=1&per_page=100&status=publish`;
-    const response = await fetchWithTimeout(apiUrl, {
+    // Use proxy endpoint to avoid CORS
+    const response = await fetchWithTimeout('/api/wordpress/testimonials', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       next: { revalidate: 600 }, // Cache for 10 minutes
     });
     
@@ -309,13 +316,17 @@ export async function getTestimonials() {
   }
 }
 
-// Fetch Team Members from WordPress
+// Fetch Team Members from WordPress using proxy
 export async function getTeamMembers() {
   try {
     console.log('🔄 Fetching team members...');
     
-    const apiUrl = `${API_BASE_URL}wp/v2/team?_embed=1&per_page=100&status=publish`;
-    const response = await fetchWithTimeout(apiUrl, {
+    // Use proxy endpoint to avoid CORS
+    const response = await fetchWithTimeout('/api/wordpress/team', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       next: { revalidate: 600 },
     });
     
@@ -341,8 +352,8 @@ export async function getTeamMembers() {
       role: member.acf?.position || '',
       bio: cleanHtmlContent(member.acf?.bio || member.content?.rendered || ''),
       image: member.featured_image_url || 
-            member._embedded?.['wp:featuredmedia']?.[0]?.source_url || 
-            '/api/placeholder/400/400',
+             member._embedded?.['wp:featuredmedia']?.[0]?.source_url || 
+             '/api/placeholder/400/400',
       expertise: Array.isArray(member.acf?.expertise) ? member.acf.expertise : [],
       experience: member.acf?.experience || '',
       location: member.acf?.location || '',
@@ -365,7 +376,7 @@ export async function getTeamMembers() {
   }
 }
 
-// Fetch single service by slug
+// Fetch single service by slug using proxy
 export async function getServiceBySlug(slug: string) {
   try {
     console.log('🔄 Fetching service by slug:', slug);
@@ -375,11 +386,13 @@ export async function getServiceBySlug(slug: string) {
     }
     
     const cleanSlug = slug.trim().toLowerCase();
-    const apiUrl = `${API_BASE_URL}wp/v2/services?slug=${encodeURIComponent(cleanSlug)}&_embed=1&status=publish`;
     
-    console.log('🌐 Service API URL:', apiUrl);
-    
-    const response = await fetchWithTimeout(apiUrl, {
+    // Use proxy endpoint
+    const response = await fetchWithTimeout(`/api/wordpress/services?slug=${encodeURIComponent(cleanSlug)}&_embed=1&status=publish`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       next: { revalidate: 300 },
     });
     
@@ -405,7 +418,7 @@ export async function getServiceBySlug(slug: string) {
   }
 }
 
-// Fetch single case study by slug
+// Fetch single case study by slug using proxy
 export async function getCaseBySlug(slug: string) {
   try {
     console.log('🔄 Fetching case by slug:', slug);
@@ -415,11 +428,13 @@ export async function getCaseBySlug(slug: string) {
     }
     
     const cleanSlug = slug.trim().toLowerCase();
-    const apiUrl = `${API_BASE_URL}wp/v2/cases?slug=${encodeURIComponent(cleanSlug)}&_embed=1&status=publish`;
     
-    console.log('🌐 Case API URL:', apiUrl);
-    
-    const response = await fetchWithTimeout(apiUrl, {
+    // Use proxy endpoint
+    const response = await fetchWithTimeout(`/api/wordpress/cases?slug=${encodeURIComponent(cleanSlug)}&_embed=1&status=publish`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       next: { revalidate: 300 },
     });
     
@@ -445,13 +460,17 @@ export async function getCaseBySlug(slug: string) {
   }
 }
 
-// Fetch blog posts
+// Fetch blog posts using proxy
 export async function getBlogPosts() {
   try {
     console.log('🔄 Fetching blog posts...');
     
-    const apiUrl = `${API_BASE_URL}wp/v2/posts?_embed=1&per_page=100&status=publish`;
-    const response = await fetchWithTimeout(apiUrl, {
+    // Use proxy endpoint
+    const response = await fetchWithTimeout('/api/wordpress/posts?_embed=1&per_page=100&status=publish', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       next: { revalidate: 300 },
     });
     
@@ -477,8 +496,8 @@ export async function getBlogPosts() {
       content: post.content?.rendered || '',
       date: post.date || new Date().toISOString(),
       featuredImage: post.featured_image_url || 
-                    post._embedded?.['wp:featuredmedia']?.[0]?.source_url || 
-                    '/api/placeholder/800/600',
+                     post._embedded?.['wp:featuredmedia']?.[0]?.source_url || 
+                     '/api/placeholder/800/600',
       author: post._embedded?.['author']?.[0]?.name || 'UAE Digital',
       categories: post._embedded?.['wp:term']?.[0] || [],
       tags: post._embedded?.['wp:term']?.[1] || [],
@@ -492,13 +511,17 @@ export async function getBlogPosts() {
   }
 }
 
-// Fetch single blog post by slug
+// Fetch single blog post by slug using proxy
 export async function getPostBySlug(slug: string) {
   try {
     console.log('🔄 Fetching post by slug:', slug);
     
-    const apiUrl = `${API_BASE_URL}wp/v2/posts?slug=${encodeURIComponent(slug)}&_embed=1&status=publish`;
-    const response = await fetchWithTimeout(apiUrl, {
+    // Use proxy endpoint
+    const response = await fetchWithTimeout(`/api/wordpress/posts?slug=${encodeURIComponent(slug)}&_embed=1&status=publish`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       next: { revalidate: 300 },
     });
     
@@ -525,8 +548,8 @@ export async function getPostBySlug(slug: string) {
       excerpt: cleanHtmlContent(post.excerpt?.rendered || ''),
       date: post.date || new Date().toISOString(),
       featuredImage: post.featured_image_url || 
-                    post._embedded?.['wp:featuredmedia']?.[0]?.source_url || 
-                    '/api/placeholder/800/600',
+                     post._embedded?.['wp:featuredmedia']?.[0]?.source_url || 
+                     '/api/placeholder/800/600',
       author: post._embedded?.['author']?.[0]?.name || 'UAE Digital',
       categories: post._embedded?.['wp:term']?.[0] || [],
       tags: post._embedded?.['wp:term']?.[1] || [],
@@ -539,13 +562,17 @@ export async function getPostBySlug(slug: string) {
   }
 }
 
-// Fetch service categories
+// Fetch service categories using proxy
 export async function getServiceCategories() {
   try {
     console.log('🔄 Fetching service categories...');
     
-    const apiUrl = `${API_BASE_URL}wp/v2/service_category?per_page=100`;
-    const response = await fetchWithTimeout(apiUrl, {
+    // Use proxy endpoint
+    const response = await fetchWithTimeout('/api/wordpress/service_category?per_page=100', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       next: { revalidate: 600 },
     });
     
@@ -564,13 +591,17 @@ export async function getServiceCategories() {
   }
 }
 
-// Fetch case industries/categories
+// Fetch case industries/categories using proxy
 export async function getCaseIndustries() {
   try {
     console.log('🔄 Fetching case industries...');
     
-    const apiUrl = `${API_BASE_URL}wp/v2/case_category?per_page=100`;
-    const response = await fetchWithTimeout(apiUrl, {
+    // Use proxy endpoint
+    const response = await fetchWithTimeout('/api/wordpress/case_category?per_page=100', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       next: { revalidate: 600 },
     });
     
@@ -600,13 +631,17 @@ function calculateReadTime(content: string): string {
   return `${minutes} min read`;
 }
 
-// API Health check
+// API Health check using proxy
 export async function checkApiHealth() {
   try {
     console.log('🏥 Checking API health...');
     
-    const response = await fetchWithTimeout(`${API_BASE_URL}wp/v2`, {
+    // Use proxy endpoint
+    const response = await fetchWithTimeout('/api/wordpress/', {
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       cache: 'no-store'
     });
     
@@ -700,12 +735,6 @@ export async function subscribeNewsletter(email: string) {
     };
   }
 }
-
-// Export configuration for debugging
-export const config = {
-  API_BASE_URL,
-  API_TIMEOUT
-};
 
 // Export types for TypeScript
 export interface Service {
