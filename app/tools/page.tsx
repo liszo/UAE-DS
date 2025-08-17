@@ -1167,7 +1167,7 @@ export default function ToolsPage() {
  </h2>
 
  <p className="text-gray-300 mb-8 leading-relaxed px-4">
- Let's build a custom automation tool tailored to your specific workflow.
+ Let&apos;s build a custom automation tool tailored to your specific workflow.
  </p>
  
  <div className="space-y-4">

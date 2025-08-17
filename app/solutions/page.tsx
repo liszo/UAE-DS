@@ -966,11 +966,11 @@ export default function SolutionsPage() {
  </motion.div>
 
  <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent mb-4">
- Can't Find Your Solution?
+ Can&apos;t Find Your Solution?
  </h2>
 
  <p className="text-gray-300 mb-8 leading-relaxed px-4">
- Let's create a custom solution tailored to your unique business challenges.
+ Let&apos;s create a custom solution tailored to your unique business challenges.
  </p>
  
  <div className="space-y-4">
@@ -1023,7 +1023,7 @@ export default function SolutionsPage() {
  Need a Custom Solution?
  </h2>
  <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
- Every business is unique. Let's discuss your specific challenges and create a tailored solution that delivers real results.
+ Every business is unique. Let&apos;s discuss your specific challenges and create a tailored solution that delivers real results.
  </p>
  
  <div className="flex flex-wrap gap-6 justify-center">
