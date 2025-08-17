@@ -202,7 +202,7 @@ export default function ToolSinglePage() {
         <div className="text-center">
           <FiAlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-white mb-2">Tool Not Found</h1>
-          <p className="text-gray-400 mb-6">The tool you're looking for doesn't exist.</p>
+          <p className="text-gray-400 mb-6">The tool you&apos;re looking for doesn&apos;t exist.</p>
           <Link href="/tools">
             <motion.button
  whileHover={{ scale: 1.05 }}

@@ -150,7 +150,7 @@ export default function SolutionSinglePage() {
         <div className="text-center">
           <FiAlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-white mb-2">Solution Not Found</h1>
-          <p className="text-gray-400 mb-6">The solution you're looking for doesn't exist.</p>
+          <p className="text-gray-400 mb-6">The solution you&apos;re looking for doesn&apos;t exist.</p>
           <Link href="/solutions">
             <motion.button
               whileHover={{ scale: 1.05 }}
