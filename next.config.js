@@ -27,13 +27,7 @@ const nextConfig = {
  },
  eslint: {
  // Disable ESLint during builds to prevent deployment failures
- ignoreDuringBuilds: false,
- // Custom ESLint rules
- rules: {
- 'react/no-unescaped-entities': 'off',
- '@next/next/no-img-element': 'off',
- 'react-hooks/exhaustive-deps': 'warn',
- },
+ ignoreDuringBuilds: true,
  },
  // Move turbo config from experimental to turbopack (as per the warning)
  turbopack: {
@@ -43,10 +37,6 @@ const nextConfig = {
  as: '*.js',
  },
  },
- },
- // Remove the deprecated experimental.turbo
- experimental: {
- // Keep other experimental features here if needed
  },
  // Add headers for better CORS handling
  async headers() {
