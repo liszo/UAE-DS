@@ -25,7 +25,11 @@ import {
   FiUser,
   FiMail,
   FiPhone,
-  FiSend
+  FiSend,
+  FiTool,
+  FiTarget,
+  FiLayers,
+  FiPackage
 } from 'react-icons/fi';
 
 const Header = () => {
@@ -36,6 +40,8 @@ const Header = () => {
   const [caseCategories, setCaseCategories] = useState<string[]>([]);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [tools, setTools] = useState<any[]>([]);
+  const [solutions, setSolutions] = useState<any[]>([]);
   const pathname = usePathname();
 
   // Fix hydration by ensuring component is mounted
@@ -105,6 +111,45 @@ const Header = () => {
 
     fetchCaseCategories();
   }, []);
+
+// Fetch tools for dropdown
+useEffect(() => {
+ const fetchToolsAndSolutions = async () => {
+ try {
+ // Fetch tools directly
+ const toolsResponse = await fetch('https://api.uaedigitalsolution.agency/wp-json/wp/v2/tools?per_page=6');
+ if (toolsResponse.ok) {
+ const toolsData = await toolsResponse.json();
+ setTools(toolsData);
+ } else {
+ console.warn('Tools API not available');
+ setTools([]);
+ }
+ } catch (error) {
+ console.warn('Error fetching tools:', error);
+ setTools([]);
+ }
+
+ try {
+ // Fetch solutions directly
+ const solutionsResponse = await fetch('https://api.uaedigitalsolution.agency/wp-json/wp/v2/solutions?per_page=6');
+ if (solutionsResponse.ok) {
+ const solutionsData = await solutionsResponse.json();
+ setSolutions(solutionsData);
+ } else {
+ console.warn('Solutions API not available');
+ setSolutions([]);
+ }
+ } catch (error) {
+ console.warn('Error fetching solutions:', error);
+ setSolutions([]);
+ }
+ };
+
+ if (mounted) {
+ fetchToolsAndSolutions();
+ }
+}, [mounted]);
 
   // Services with proper titles and unique icons
   const services = [
@@ -183,6 +228,20 @@ const Header = () => {
       icon: FiBriefcase,
       hasDropdown: true,
       dropdownType: 'services'
+    },
+    { 
+      name: 'Solutions', 
+      href: '/solutions',
+      icon: FiTarget,
+      hasDropdown: true,
+      dropdownType: 'solutions'
+    },
+    { 
+      name: 'Tools', 
+      href: '/tools',
+      icon: FiTool,
+      hasDropdown: true,
+      dropdownType: 'tools'
     },
     { 
       name: 'Portfolio', 
@@ -328,6 +387,132 @@ const Header = () => {
                             className="flex items-center justify-center py-3 px-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 group"
                           >
                             View All Services
+                            <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                          </Link>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Solutions Dropdown */}
+                  <AnimatePresence>
+                    {item.hasDropdown && activeDropdown === item.name && item.dropdownType === 'solutions' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-full left-0 mt-2 w-[500px] bg-white backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl overflow-hidden"
+                      >
+                        <div className="p-6">
+                          <h4 className="text-sm font-semibold text-gray-900 mb-4">Digital Solutions</h4>
+                          <div className="space-y-3">
+                            {solutions.length > 0 ? solutions.map((solution, index) => (
+                              <motion.div
+                                key={solution.id}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.05 }}
+                              >
+                                <Link
+                                  href={`/solutions/${solution.slug}`}
+                                  className="block p-3 rounded-xl hover:bg-gray-50 transition-all duration-300 group"
+                                >
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                      <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                                        <FiTarget className="w-5 h-5 text-blue-600" />
+                                      </div>
+                                      <div>
+                                        <h3 className="text-gray-900 font-semibold text-sm group-hover:text-blue-600 transition-colors line-clamp-1">
+                                          {decodeHtmlEntities(solution.title?.rendered || solution.title)}
+                                        </h3>
+                                        <p className="text-gray-500 text-xs mt-0.5 line-clamp-1">
+                                          {solution.implementation_time || 'Quick implementation'}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <FiArrowRight className="text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300 flex-shrink-0" />
+                                  </div>
+                                </Link>
+                              </motion.div>
+                            )) : (
+                              <div className="text-center py-4">
+                                <p className="text-gray-500 text-sm">Loading solutions...</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="border-t border-gray-100 p-4">
+                          <Link
+                            href="/solutions"
+                            className="flex items-center justify-center py-3 px-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 group"
+                          >
+                            View All Solutions
+                            <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                          </Link>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Tools Dropdown */}
+                  <AnimatePresence>
+                    {item.hasDropdown && activeDropdown === item.name && item.dropdownType === 'tools' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-full left-0 mt-2 w-[500px] bg-white backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl overflow-hidden"
+                      >
+                        <div className="p-6">
+                          <h4 className="text-sm font-semibold text-gray-900 mb-4">Digital Tools</h4>
+                          <div className="space-y-3">
+                            {tools.length > 0 ? tools.map((tool, index) => (
+                              <motion.div
+                                key={tool.id}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.05 }}
+                              >
+                                <Link
+                                  href={`/tools/${tool.slug}`}
+                                  className="block p-3 rounded-xl hover:bg-gray-50 transition-all duration-300 group"
+                                >
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                      <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                                        <FiTool className="w-5 h-5 text-purple-600" />
+                                      </div>
+                                      <div>
+                                        <h3 className="text-gray-900 font-semibold text-sm group-hover:text-purple-600 transition-colors line-clamp-1">
+                                          {decodeHtmlEntities(tool.title?.rendered || tool.title)}
+                                        </h3>
+                                        <p className="text-gray-500 text-xs mt-0.5">
+                                          {tool.tool_type || 'Digital tool'}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <FiArrowRight className="text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all duration-300 flex-shrink-0" />
+                                  </div>
+                                </Link>
+                              </motion.div>
+                            )) : (
+                              <div className="text-center py-4">
+                                <p className="text-gray-500 text-sm">Loading tools...</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="border-t border-gray-100 p-4">
+                          <Link
+                            href="/tools"
+                            className="flex items-center justify-center py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 group"
+                          >
+                            View All Tools
                             <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                           </Link>
                         </div>
@@ -619,203 +804,248 @@ const Header = () => {
                           }}
                         />
                         <motion.div
-                          className="w-2.5 h-0.5 bg-white rounded-full"
-                          animate={{ 
-                            scaleX: [1, 0.9, 1],
-                          }}
-                          transition={{ 
-                            duration: 2, 
-                            repeat: Infinity,
-                            ease: 'easeInOut',
-                            delay: 0.4
-                          }}
-                        />
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                
-                {/* Smaller Notification Dot */}
+                        className="w-2.5 h-0.5 bg-white rounded-full"
+                        animate={{ 
+                          scaleX: [1, 0.9, 1],
+                        }}
+                        transition={{ 
+                          duration: 2, 
+                          repeat: Infinity,
+                          ease: 'easeInOut',
+                          delay: 0.4
+                        }}
+                      />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              
+              {/* Smaller Notification Dot */}
+              <motion.div
+                className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-yellow-400 rounded-full shadow-lg"
+                animate={{ 
+                  scale: [1, 1.2, 1],
+                  opacity: [0.8, 1, 0.8]
+                }}
+                transition={{ 
+                  duration: 1.5, 
+                  repeat: Infinity,
+                  ease: 'easeInOut'
+                }}
+              />
+            </motion.button>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Fixed Progress Bar */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
+        <motion.div
+          className="h-full bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full origin-left"
+          style={{ 
+            scaleX: scrollProgress / 100,
+          }}
+          transition={{ type: "spring", stiffness: 400, damping: 40 }}
+        />
+      </div>
+    </motion.div>
+
+    {/* Mobile Full-Screen Menu - Fixed Width Issues */}
+    <AnimatePresence>
+      {isMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: '100vh' }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+          className="lg:hidden fixed inset-0 top-[61px] bg-white z-40 overflow-y-auto"
+        >
+          <div className="px-4 py-6 max-w-full">
+            {/* Navigation Items */}
+            <nav className="space-y-1 mb-8">
+              {navigation.map((item, index) => (
                 <motion.div
-                  className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-yellow-400 rounded-full shadow-lg"
-                  animate={{ 
-                    scale: [1, 1.2, 1],
-                    opacity: [0.8, 1, 0.8]
-                  }}
-                  transition={{ 
-                    duration: 1.5, 
-                    repeat: Infinity,
-                    ease: 'easeInOut'
-                  }}
-                />
-              </motion.button>
+                  key={item.name}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className={`flex items-center space-x-4 p-4 rounded-2xl transition-all duration-300 ${
+                      pathname === item.href
+                        ? 'bg-purple-50 text-purple-600 border-2 border-purple-200'
+                        : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                      pathname === item.href
+                        ? 'bg-purple-100'
+                        : 'bg-white'
+                    }`}>
+                      <item.icon className={`w-6 h-6 ${
+                        pathname === item.href ? 'text-purple-600' : 'text-gray-600'
+                      }`} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-lg truncate">{item.name}</h3>
+                      <p className="text-sm text-gray-500 truncate">
+                        {item.name === 'Home' && 'Welcome to UAE Digital'}
+                        {item.name === 'Services' && 'Our digital solutions'}
+                        {item.name === 'Solutions' && 'Business solutions'}
+                        {item.name === 'Tools' && 'Digital tools & resources'}
+                        {item.name === 'Portfolio' && 'Our latest work'}
+                        {item.name === 'About Us' && 'Learn about our team'}
+                        {item.name === 'Contact Us' && 'Get in touch with us'}
+                      </p>
+                    </div>
+                    <FiArrowRight className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                  </Link>
+                </motion.div>
+              ))}
+            </nav>
+
+            {/* Services Quick Access */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="mb-8"
+            >
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Services</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {services.slice(0, 4).map((service, index) => {
+                  const IconComponent = service.icon;
+                  const cleanTitle = decodeHtmlEntities(service.title);
+                  
+                  return (
+                    <Link
+                      key={service.id}
+                      href={`/services/${service.slug}`}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="p-4 bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl border border-purple-100 hover:shadow-lg transition-all duration-300"
+                    >
+                      <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center mb-3 shadow-sm flex-shrink-0">
+                        <IconComponent className="w-5 h-5 text-purple-600" />
+                      </div>
+                      <h4 className="font-semibold text-sm text-gray-900 mb-1 line-clamp-2">
+                        {cleanTitle}
+                      </h4>
+                      <p className="text-xs text-gray-600 line-clamp-2">
+                        Professional {cleanTitle.toLowerCase()} services
+                      </p>
+                    </Link>
+                  );
+                })}
+              </div>
+              <Link
+                href="/services"
+                onClick={() => setIsMenuOpen(false)}
+                className="block text-center mt-4 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-xl"
+              >
+                View All Services
+              </Link>
+            </motion.div>
+
+            {/* Solutions & Tools Quick Access */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.55 }}
+              className="mb-8"
+            >
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Solutions & Tools</h3>
+              <div className="grid grid-cols-2 gap-3">
+                <Link
+                  href="/solutions"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl border border-blue-100 hover:shadow-lg transition-all duration-300"
+                >
+                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center mb-3 shadow-sm">
+                    <FiTarget className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <h4 className="font-semibold text-sm text-gray-900 mb-1">
+                    Solutions
+                  </h4>
+                  <p className="text-xs text-gray-600">
+                    Business solutions
+                  </p>
+                </Link>
+                
+                <Link
+                  href="/tools"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl border border-purple-100 hover:shadow-lg transition-all duration-300"
+                >
+                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center mb-3 shadow-sm">
+                    <FiTool className="w-5 h-5 text-purple-600" />
+                  </div>
+                  <h4 className="font-semibold text-sm text-gray-900 mb-1">
+                    Tools
+                  </h4>
+                  <p className="text-xs text-gray-600">
+                    Digital tools
+                  </p>
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Contact Actions */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="space-y-3"
+            >
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Get In Touch</h3>
+              
+              <a
+                href="tel:+971501234567"
+                className="flex items-center space-x-4 p-4 bg-green-50 rounded-2xl border border-green-200"
+              >
+                <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <FiPhone className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-semibold text-gray-900">Call Now</h4>
+                  <p className="text-sm text-gray-600 truncate">+971 50 123 4567</p>
+                </div>
+              </a>
+
+              <a
+                href="mailto:hello@uaedigital.com"
+                className="flex items-center space-x-4 p-4 bg-blue-50 rounded-2xl border border-blue-200"
+              >
+                <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <FiMail className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-semibold text-gray-900">Email Us</h4>
+                  <p className="text-sm text-gray-600 truncate">hello@uaedigital.com</p>
+                </div>
+              </a>
+
+              <Link
+                href="/contact"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center space-x-4 p-4 bg-purple-50 rounded-2xl border border-purple-200"
+              >
+                <div className="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <FiMessageCircle className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-semibold text-gray-900">Contact Form</h4>
+                  <p className="text-sm text-gray-600 truncate">Send us a message</p>
+                </div>
+              </Link>
             </motion.div>
           </div>
-        </div>
-
-        {/* Fixed Progress Bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
-          <motion.div
-            className="h-full bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full origin-left"
-            style={{ 
-              scaleX: scrollProgress / 100,
-            }}
-            transition={{ type: "spring", stiffness: 400, damping: 40 }}
-          />
-        </div>
-      </motion.div>
-
-      {/* Mobile Full-Screen Menu - Fixed Width Issues */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: '100vh' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="lg:hidden fixed inset-0 top-[61px] bg-white z-40 overflow-y-auto"
-          >
-            <div className="px-4 py-6 max-w-full">
-              {/* Navigation Items */}
-              <nav className="space-y-1 mb-8">
-                {navigation.map((item, index) => (
-                  <motion.div
-                    key={item.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <Link
-                      href={item.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className={`flex items-center space-x-4 p-4 rounded-2xl transition-all duration-300 ${
-                        pathname === item.href
-                          ? 'bg-purple-50 text-purple-600 border-2 border-purple-200'
-                          : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-                      }`}
-                    >
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                        pathname === item.href
-                          ? 'bg-purple-100'
-                          : 'bg-white'
-                      }`}>
-                        <item.icon className={`w-6 h-6 ${
-                          pathname === item.href ? 'text-purple-600' : 'text-gray-600'
-                        }`} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-lg truncate">{item.name}</h3>
-                        <p className="text-sm text-gray-500 truncate">
-                          {item.name === 'Home' && 'Welcome to UAE Digital'}
-                          {item.name === 'Services' && 'Our digital solutions'}
-                          {item.name === 'Portfolio' && 'Our latest work'}
-                          {item.name === 'About Us' && 'Learn about our team'}
-                          {item.name === 'Contact Us' && 'Get in touch with us'}
-                        </p>
-                      </div>
-                      <FiArrowRight className="w-5 h-5 text-gray-400 flex-shrink-0" />
-                    </Link>
-                  </motion.div>
-                ))}
-              </nav>
-
-              {/* Services Quick Access */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="mb-8"
-              >
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Services</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {services.slice(0, 4).map((service, index) => {
-                    const IconComponent = service.icon;
-                    const cleanTitle = decodeHtmlEntities(service.title);
-                    
-                    return (
-                      <Link
-                        key={service.id}
-                        href={`/services/${service.slug}`}
-                        onClick={() => setIsMenuOpen(false)}
-                        className="p-4 bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl border border-purple-100 hover:shadow-lg transition-all duration-300"
-                      >
-                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center mb-3 shadow-sm flex-shrink-0">
-                          <IconComponent className="w-5 h-5 text-purple-600" />
-                        </div>
-                        <h4 className="font-semibold text-sm text-gray-900 mb-1 line-clamp-2">
-                          {cleanTitle}
-                        </h4>
-                        <p className="text-xs text-gray-600 line-clamp-2">
-                          Professional {cleanTitle.toLowerCase()} services
-                        </p>
-                      </Link>
-                    );
-                  })}
-                </div>
-                <Link
-                  href="/services"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="block text-center mt-4 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-xl"
-                >
-                  View All Services
-                </Link>
-              </motion.div>
-
-              {/* Contact Actions */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="space-y-3"
-              >
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Get In Touch</h3>
-                
-                <a
-                  href="tel:+971501234567"
-                  className="flex items-center space-x-4 p-4 bg-green-50 rounded-2xl border border-green-200"
-                >
-                  <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <FiPhone className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-gray-900">Call Now</h4>
-                    <p className="text-sm text-gray-600 truncate">+971 50 123 4567</p>
-                  </div>
-                </a>
-
-                <a
-                  href="mailto:hello@uaedigital.com"
-                  className="flex items-center space-x-4 p-4 bg-blue-50 rounded-2xl border border-blue-200"
-                >
-                  <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <FiMail className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-gray-900">Email Us</h4>
-                    <p className="text-sm text-gray-600 truncate">hello@uaedigital.com</p>
-                  </div>
-                </a>
-
-                <Link
-                  href="/contact"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center space-x-4 p-4 bg-purple-50 rounded-2xl border border-purple-200"
-                >
-                  <div className="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <FiMessageCircle className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-gray-900">Contact Form</h4>
-                    <p className="text-sm text-gray-600 truncate">Send us a message</p>
-                  </div>
-                </Link>
-              </motion.div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </div>
+ );
 };
 
 export default Header;
