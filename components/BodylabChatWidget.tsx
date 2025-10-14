@@ -8,6 +8,12 @@ interface Message {
   content: string;
 }
 
+interface Product {
+  name: string;
+  price: string;
+  benefits: string[];
+}
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -19,6 +25,23 @@ const SUGGESTED_QUESTIONS = [
   "Laktosefreie Proteine verfügbar?",
   "Pre-Workout Empfehlung?"
 ];
+
+function parseProducts(text: string): { products: Product[], cleanText: string } {
+  const productRegex = /PRODUCT:\s*([^|]+)\s*\|\s*PRICE:\s*([^|]+)\s*\|\s*BENEFITS:\s*([^\n]+)/g;
+  const products: Product[] = [];
+  let match;
+  
+  while ((match = productRegex.exec(text)) !== null) {
+    products.push({
+      name: match[1].trim(),
+      price: match[2].trim(),
+      benefits: match[3].split(',').map(b => b.trim()).filter(Boolean)
+    });
+  }
+  
+  const cleanText = text.replace(productRegex, '').trim();
+  return { products, cleanText };
+}
 
 export default function BodylabChatWidget({ isOpen, onClose }: Props) {
   const [messages, setMessages] = useState<Message[]>([
@@ -119,21 +142,47 @@ export default function BodylabChatWidget({ isOpen, onClose }: Props) {
                     key={i}
                     initial={{ opacity: 0, y: 20, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                    className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'} gap-3`}
                   >
-                    <div className={`max-w-[85%] rounded-2xl p-5 shadow-lg ${
-                      msg.role === 'user'
-                        ? 'bg-gradient-to-br from-blue-600 to-cyan-500 text-white'
-                        : 'bg-slate-800 text-slate-100 border border-slate-700'
-                    }`}>
-                      {msg.role === 'assistant' && (
-                        <div className="flex items-center gap-2 mb-2 text-cyan-400">
-                          <span className="text-lg">🤖</span>
-                          <span className="text-xs font-semibold">AI Assistant</span>
+                    {msg.role === 'user' ? (
+                      <div className="max-w-[85%] rounded-2xl p-5 shadow-lg bg-gradient-to-br from-blue-600 to-cyan-500 text-white">
+                        <p className="whitespace-pre-wrap leading-relaxed">{msg.content}</p>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="max-w-[85%] bg-slate-800 text-slate-100 border border-slate-700 rounded-2xl p-5 shadow-lg">
+                          <div className="flex items-center gap-2 mb-2 text-cyan-400">
+                            <span className="text-lg">🤖</span>
+                            <span className="text-xs font-semibold">AI Assistant</span>
+                          </div>
+                          <p className="whitespace-pre-wrap leading-relaxed">{parseProducts(msg.content).cleanText}</p>
                         </div>
-                      )}
-                      <p className="whitespace-pre-wrap leading-relaxed">{msg.content}</p>
-                    </div>
+                        
+                        {parseProducts(msg.content).products.map((product, idx) => (
+                          <motion.div
+                            key={idx}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: idx * 0.1 }}
+                            whileHover={{ scale: 1.02, x: 5 }}
+                            className="w-full max-w-[85%] bg-gradient-to-r from-blue-600/20 to-cyan-600/20 border border-cyan-500/30 rounded-xl p-4 cursor-pointer transition-all"
+                          >
+                            <div className="flex justify-between items-start mb-3">
+                              <h4 className="font-bold text-white text-lg">{product.name}</h4>
+                              <span className="text-cyan-400 font-bold text-xl ml-4">{product.price}</span>
+                            </div>
+                            <ul className="space-y-2">
+                              {product.benefits.map((benefit, i) => (
+                                <li key={i} className="text-sm text-gray-300 flex items-start gap-2">
+                                  <span className="text-green-400 mt-1">✓</span>
+                                  <span>{benefit}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </motion.div>
+                        ))}
+                      </>
+                    )}
                   </motion.div>
                 ))}
               </AnimatePresence>
