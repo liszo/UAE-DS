@@ -59,12 +59,13 @@ export default function BodylabChatWidget({ isOpen, onClose }: Props) {
       if (data.error) throw new Error(data.error);
 
       setMessages(prev => [...prev, { role: 'assistant', content: data.answer }]);
-    } catch (error) {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: 'Entschuldigung, ein Fehler ist aufgetreten. Bitte versuche es erneut.' 
-      }]);
-    }
+        } catch (error) {
+        console.error('Chat error:', error);
+        setMessages(prev => [...prev, { 
+            role: 'assistant', 
+            content: 'Entschuldigung, ein Fehler ist aufgetreten. Bitte versuche es erneut.' 
+        }]);
+        }
 
     setLoading(false);
   };
