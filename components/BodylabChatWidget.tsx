@@ -43,7 +43,7 @@ export default function BodylabChatWidget({ isOpen, onClose }: Props) {
     setLoading(true);
 
     try {
-      const response = await fetch('https://bodylab-chatbot-api.vercel.app/chat', {
+      const response = await fetch('https://bodylab-chatbot-api.vercel.app/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
