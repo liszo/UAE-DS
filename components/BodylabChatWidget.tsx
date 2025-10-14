@@ -28,11 +28,9 @@ export default function BodylabChatWidget({ isOpen, onClose }: Props) {
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  useEffect(scrollToBottom, [messages]);
+  }, [messages]);
 
   const sendMessage = async (text = input) => {
     if (!text.trim() || loading) return;
@@ -43,29 +41,29 @@ export default function BodylabChatWidget({ isOpen, onClose }: Props) {
     setLoading(true);
 
     try {
-      const response = await fetch('https://bodylab-chatbot-api.vercel.app/', {
+      const response = await fetch('https://bodylab-chatbot-api.vercel.app/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           question: text,
           history: messages.slice(-6).map(m => ({
-            [m.role === 'user' ? 'user' : 'assistant']: m.content
-          }))
+            user: m.role === 'user' ? m.content : '',
+            assistant: m.role === 'assistant' ? m.content : ''
+          })).filter(h => h.user || h.assistant)
         })
       });
 
       const data = await response.json();
-      
       if (data.error) throw new Error(data.error);
 
       setMessages(prev => [...prev, { role: 'assistant', content: data.answer }]);
-        } catch (error) {
-        console.error('Chat error:', error);
-        setMessages(prev => [...prev, { 
-            role: 'assistant', 
-            content: 'Entschuldigung, ein Fehler ist aufgetreten. Bitte versuche es erneut.' 
-        }]);
-        }
+    } catch (error) {
+      console.error('Chat error:', error);
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: 'Entschuldigung, ein Fehler ist aufgetreten. Bitte versuche es erneut.' 
+      }]);
+    }
 
     setLoading(false);
   };
@@ -121,7 +119,6 @@ export default function BodylabChatWidget({ isOpen, onClose }: Props) {
                     key={i}
                     initial={{ opacity: 0, y: 20, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ delay: i * 0.1 }}
                     className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div className={`max-w-[85%] rounded-2xl p-5 shadow-lg ${
@@ -142,11 +139,7 @@ export default function BodylabChatWidget({ isOpen, onClose }: Props) {
               </AnimatePresence>
               
               {loading && (
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="flex justify-start"
-                >
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start">
                   <div className="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-lg">
                     <div className="flex items-center gap-3">
                       <div className="flex gap-1">
@@ -154,11 +147,7 @@ export default function BodylabChatWidget({ isOpen, onClose }: Props) {
                           <motion.div
                             key={i}
                             animate={{ y: [0, -10, 0] }}
-                            transition={{ 
-                              repeat: Infinity, 
-                              duration: 0.6,
-                              delay: i * 0.1 
-                            }}
+                            transition={{ repeat: Infinity, duration: 0.6, delay: i * 0.1 }}
                             className="w-2 h-2 bg-cyan-400 rounded-full"
                           />
                         ))}
@@ -172,11 +161,7 @@ export default function BodylabChatWidget({ isOpen, onClose }: Props) {
             </div>
 
             {messages.length === 1 && (
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="px-6 pb-4"
-              >
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="px-6 pb-4">
                 <p className="text-slate-400 text-sm mb-3 font-medium">💡 Beliebte Fragen:</p>
                 <div className="flex flex-wrap gap-2">
                   {SUGGESTED_QUESTIONS.map((q, i) => (
