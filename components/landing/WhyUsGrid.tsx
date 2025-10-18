@@ -28,7 +28,7 @@ export function WhyUsGrid({ title, differentiators, className = '' }: WhyUsGridP
   }
 
   return (
-    <section className={`py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-950 ${className}`}>
+    <section className={`py-12 sm:py-20 px-3 sm:px-6 lg:px-8 bg-gradient-to-br from-neutral-50 to-neutral-100 ${className}`}>
       <div className="container mx-auto max-w-7xl">
         {/* Section Header */}
         <motion.div

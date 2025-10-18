@@ -13,7 +13,7 @@ interface SpecialOfferProps {
 
 export function SpecialOffer({ offer, ctaLink, className = '' }: SpecialOfferProps) {
   return (
-    <section className={`py-16 sm:py-24 px-4 sm:px-6 lg:px-8 ${className}`}>
+    <section className={`py-12 sm:py-20 px-3 sm:px-6 lg:px-8 ${className}`}>
       <div className="container mx-auto max-w-5xl">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}

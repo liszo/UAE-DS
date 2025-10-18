@@ -39,9 +39,9 @@ export function LandingHero({
     : videoUrl
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-neutral-950 dark:via-neutral-900 dark:to-neutral-950" />
+    <section className="relative min-h-screen flex items-center justify-center pt-20 pb-12 px-3 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Background gradient - Always light */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50" />
       
       {/* Grid pattern overlay */}
       <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />

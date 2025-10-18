@@ -1,6 +1,7 @@
 // Landing Page Components Export
 export { LandingHero } from './LandingHero'
 export { UrgencyBar } from './UrgencyBar'
+export { UrgencyModal } from './UrgencyModal'
 export { ProblemSection } from './ProblemSection'
 export { SolutionProcess } from './SolutionProcess'
 export { ResultsProof } from './ResultsProof'

@@ -1,14 +1,14 @@
 import { ServiceLandingPageData } from '@/lib/types/landing-page'
+import Link from 'next/link'
 import { 
   LandingHero, 
-  UrgencyBar, 
+  UrgencyModal, 
   ProblemSection, 
   SolutionProcess,
   ResultsProof,
   WhyUsGrid,
   SpecialOffer,
   FAQAccordion,
-  ContactForm
 } from '@/components/landing'
 
 interface LandingPageTemplateProps {
@@ -17,12 +17,12 @@ interface LandingPageTemplateProps {
 
 export function LandingPageTemplate({ data }: LandingPageTemplateProps) {
   return (
-    <div className="min-h-screen bg-white dark:bg-neutral-950">
-      {/* Urgency Bar - Sticky at top */}
-      <UrgencyBar
+    <div className="min-h-screen bg-white dark:bg-white">
+      {/* Urgency Modal - Bottom Left */}
+      <UrgencyModal
         message={`${data.offer.discount} - ${data.offer.deadline}`}
         ctaText="Claim Offer Now"
-        ctaLink="#contact"
+        ctaLink="https://uaedigitalsolution.agency/contact"
         spotsRemaining={data.offer.spotsRemaining}
       />
 
@@ -32,7 +32,12 @@ export function LandingPageTemplate({ data }: LandingPageTemplateProps) {
         subtitle={data.subtitle}
         videoUrl={data.videoUrl}
         videoPosterImage={data.videoPosterImage}
-        cta={data.cta}
+        cta={{
+          primary: data.cta.primary,
+          secondary: 'Learn More',
+          primaryLink: 'https://uaedigitalsolution.agency/contact',
+          secondaryLink: data.servicePageUrl
+        }}
         heroStats={data.heroStats}
         trustBadges={data.trustBadges}
       />
@@ -41,7 +46,7 @@ export function LandingPageTemplate({ data }: LandingPageTemplateProps) {
       <ProblemSection
         title={data.problemSectionTitle}
         painPoints={data.painPoints}
-        className="bg-neutral-50 dark:bg-neutral-900"
+        className="bg-neutral-50"
       />
 
       {/* Solution Process */}
@@ -57,7 +62,7 @@ export function LandingPageTemplate({ data }: LandingPageTemplateProps) {
         metrics={data.metrics}
         caseStudies={data.caseStudies}
         testimonials={data.testimonials}
-        className="bg-neutral-50 dark:bg-neutral-900"
+        className="bg-neutral-50"
       />
 
       {/* Why Us Section */}
@@ -69,85 +74,88 @@ export function LandingPageTemplate({ data }: LandingPageTemplateProps) {
       {/* Special Offer */}
       <SpecialOffer
         offer={data.offer}
-        ctaLink="#contact"
-        className="bg-white dark:bg-neutral-950"
+        ctaLink="https://uaedigitalsolution.agency/contact"
+        className="bg-white"
       />
 
       {/* FAQ Section */}
       <FAQAccordion
         faqs={data.faqs}
-        className="bg-neutral-50 dark:bg-neutral-900"
+        className="bg-neutral-50"
       />
 
-      {/* Contact Form - Final CTA */}
-      <ContactForm
-        serviceName={data.name}
-      />
+      {/* Final CTA Section - Contact & Service Links */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-neutral-900 to-neutral-950">
+        <div className="container mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
+            Ready to Transform Your Business?
+          </h2>
+          <p className="text-lg sm:text-xl text-neutral-300 mb-12 max-w-2xl mx-auto">
+            Stop losing to your competitors. Get started today with our proven {data.name} solutions.
+          </p>
 
-      {/* Minimal Footer */}
-      <footer className="py-12 px-4 sm:px-6 lg:px-8 bg-neutral-900 text-white">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            {/* Quick Links */}
-            <div>
-              <h3 className="text-lg font-bold mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href={data.servicePageUrl} className="text-neutral-400 hover:text-white transition-colors">
-                    Learn More About {data.name}
-                  </a>
-                </li>
-                <li>
-                  <a href="https://uaedigitalsolution.agency" className="text-neutral-400 hover:text-white transition-colors">
-                    Visit Main Site
-                  </a>
-                </li>
-                <li>
-                  <a href="/privacy" className="text-neutral-400 hover:text-white transition-colors">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="/terms" className="text-neutral-400 hover:text-white transition-colors">
-                    Terms of Service
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Contact */}
-            <div>
-              <h3 className="text-lg font-bold mb-4">Contact Us</h3>
-              <ul className="space-y-2 text-neutral-400">
-                <li>📧 info@uaedigitalsolution.agency</li>
-                <li>📞 +971 XX XXX XXXX</li>
-                <li>📍 Dubai, UAE</li>
-              </ul>
-            </div>
-
-            {/* Social Proof */}
-            <div>
-              <h3 className="text-lg font-bold mb-4">Trusted By</h3>
-              <p className="text-neutral-400 mb-4">
-                Trusted by {data.heroStats.clients}+ UAE businesses
-              </p>
-              <div className="flex items-center gap-2 text-neutral-400">
-                <span className="text-2xl">✅</span>
-                <span>Money-Back Guarantee</span>
+          {/* CTA Buttons Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {/* Get Quote */}
+            <Link href="https://uaedigitalsolution.agency/contact">
+              <div className="group p-6 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl hover:shadow-2xl transition-all cursor-pointer">
+                <div className="text-4xl mb-3">📝</div>
+                <h3 className="text-xl font-bold text-white mb-2">Request Quote</h3>
+                <p className="text-sm text-white/80">Get a custom proposal for your business</p>
               </div>
+            </Link>
+
+            {/* Book Meeting */}
+            <Link href="https://uaedigitalsolution.agency/booking">
+              <div className="group p-6 bg-gradient-to-br from-green-600 to-emerald-600 rounded-2xl hover:shadow-2xl transition-all cursor-pointer">
+                <div className="text-4xl mb-3">📅</div>
+                <h3 className="text-xl font-bold text-white mb-2">Book Meeting</h3>
+                <p className="text-sm text-white/80">Schedule a free consultation call</p>
+              </div>
+            </Link>
+
+            {/* Learn More */}
+            <Link href={data.servicePageUrl}>
+              <div className="group p-6 bg-gradient-to-br from-orange-600 to-red-600 rounded-2xl hover:shadow-2xl transition-all cursor-pointer">
+                <div className="text-4xl mb-3">📖</div>
+                <h3 className="text-xl font-bold text-white mb-2">Learn More</h3>
+                <p className="text-sm text-white/80">Full details about this service</p>
+              </div>
+            </Link>
+          </div>
+
+          {/* Trust Indicators */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-neutral-400 pt-8 border-t border-neutral-800">
+            <div className="flex items-center gap-2">
+              <span className="text-xl">🔒</span>
+              <span>100% Secure & Confidential</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xl">⚡</span>
+              <span>2-Hour Response Time</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xl">💯</span>
+              <span>No Credit Card Required</span>
             </div>
           </div>
 
-          {/* Copyright */}
-          <div className="pt-8 border-t border-neutral-800 text-center text-neutral-500">
-            <p>&copy; {new Date().getFullYear()} UAE Digital Solution Agency. All rights reserved.</p>
-            <p className="mt-2 text-sm">
-              This is a limited-time landing page. Offer valid for outreach campaign only.
-            </p>
+          {/* Additional Links */}
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-neutral-400">
+            <Link href="https://uaedigitalsolution.agency" className="hover:text-white transition-colors">
+              🏠 Visit Main Site
+            </Link>
+            <Link href="https://uaedigitalsolution.agency/about" className="hover:text-white transition-colors">
+              👥 About Us
+            </Link>
+            <Link href="https://uaedigitalsolution.agency/services" className="hover:text-white transition-colors">
+              🛠️ All Services
+            </Link>
           </div>
         </div>
-      </footer>
+      </section>
+
+      {/* Note: Footer is handled by main site layout */}
     </div>
   )
 }
-

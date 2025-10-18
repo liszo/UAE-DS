@@ -20,7 +20,7 @@ export function ResultsProof({
   className = '' 
 }: ResultsProofProps) {
   return (
-    <section className={`py-16 sm:py-24 px-4 sm:px-6 lg:px-8 ${className}`}>
+    <section className={`py-12 sm:py-20 px-3 sm:px-6 lg:px-8 ${className}`}>
       <div className="container mx-auto max-w-7xl">
         {/* Section Header */}
         <motion.div
@@ -138,15 +138,15 @@ export function ResultsProof({
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="relative p-6 bg-white dark:bg-neutral-800 rounded-2xl shadow-lg border border-neutral-200 dark:border-neutral-700"
+                  className="relative p-6 bg-white rounded-2xl shadow-lg border border-neutral-200"
                 >
-                  {/* Quote Mark */}
-                  <div className="absolute -top-4 -left-4 flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl shadow-lg">
-                    <span className="text-2xl text-white">"</span>
+                  {/* Quote Mark - Moved to inside */}
+                  <div className="mb-4">
+                    <span className="text-5xl text-blue-600 font-serif leading-none">&ldquo;</span>
                   </div>
 
                   {/* Quote */}
-                  <p className="text-base text-neutral-700 dark:text-neutral-300 mb-6 leading-relaxed italic">
+                  <p className="text-base text-neutral-700 mb-6 leading-relaxed italic">
                     "{testimonial.quote}"
                   </p>
 
@@ -160,14 +160,14 @@ export function ResultsProof({
                   )}
 
                   {/* Author */}
-                  <div className="pt-4 border-t border-neutral-200 dark:border-neutral-700">
-                    <div className="font-bold text-neutral-900 dark:text-white">
+                  <div className="pt-4 border-t border-neutral-200">
+                    <div className="font-bold text-neutral-900">
                       {testimonial.author}
                     </div>
-                    <div className="text-sm text-neutral-600 dark:text-neutral-400">
+                    <div className="text-sm text-neutral-600">
                       {testimonial.role}
                     </div>
-                    <div className="text-sm text-neutral-500 dark:text-neutral-500">
+                    <div className="text-sm text-neutral-500">
                       {testimonial.company}
                       {testimonial.location && ` • ${testimonial.location}`}
                     </div>

@@ -29,7 +29,7 @@ export function SolutionProcess({ title, subtitle, steps, className = '' }: Solu
   }
 
   return (
-    <section className={`py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-neutral-900 dark:to-neutral-950 ${className}`}>
+    <section className={`py-12 sm:py-20 px-3 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 to-purple-50 ${className}`}>
       <div className="container mx-auto max-w-7xl">
         {/* Section Header */}
         <motion.div
@@ -63,20 +63,20 @@ export function SolutionProcess({ title, subtitle, steps, className = '' }: Solu
               variants={itemVariants}
               className="relative"
             >
-              {/* Connector Line */}
+              {/* Connector Line - Hidden on mobile for cleaner look */}
               {index < steps.length - 1 && (
                 <div className="hidden lg:block absolute left-12 top-24 w-0.5 h-16 bg-gradient-to-b from-blue-400 to-purple-400" />
               )}
 
-              <div className="flex flex-col lg:flex-row gap-6 items-start">
-                {/* Step Number Badge */}
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
+                {/* Step Number Badge - Responsive */}
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="flex-shrink-0 flex items-center justify-center w-24 h-24 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl shadow-xl"
+                  className="flex-shrink-0 flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl sm:rounded-2xl shadow-xl"
                 >
                   <div className="text-center">
-                    <div className="text-sm font-semibold text-white/80">Step</div>
-                    <div className="text-3xl font-bold text-white">{step.number}</div>
+                    <div className="text-xs sm:text-sm font-semibold text-white/80">Step</div>
+                    <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{step.number}</div>
                   </div>
                 </motion.div>
 
@@ -113,20 +113,42 @@ export function SolutionProcess({ title, subtitle, steps, className = '' }: Solu
           ))}
         </motion.div>
 
-        {/* Bottom Message */}
+        {/* Bottom Message - Redesigned */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
-          className="text-center mt-16 p-8 bg-white dark:bg-neutral-800 rounded-2xl shadow-lg max-w-3xl mx-auto"
+          className="mt-16"
         >
-          <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-4">
-            Simple, Proven, Results-Driven
-          </h3>
-          <p className="text-lg text-neutral-600 dark:text-neutral-400">
-            No complicated processes. No endless meetings. Just clear steps that deliver measurable results.
-          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {/* Simple */}
+            <div className="text-center p-6 bg-white rounded-xl shadow-md">
+              <div className="text-4xl mb-3">✨</div>
+              <h4 className="text-xl font-bold text-neutral-900 mb-2">Simple</h4>
+              <p className="text-sm text-neutral-600">
+                No complicated processes or confusing jargon
+              </p>
+            </div>
+
+            {/* Proven */}
+            <div className="text-center p-6 bg-white rounded-xl shadow-md">
+              <div className="text-4xl mb-3">🏆</div>
+              <h4 className="text-xl font-bold text-neutral-900 mb-2">Proven</h4>
+              <p className="text-sm text-neutral-600">
+                Strategies tested and refined across 200+ projects
+              </p>
+            </div>
+
+            {/* Results-Driven */}
+            <div className="text-center p-6 bg-white rounded-xl shadow-md">
+              <div className="text-4xl mb-3">📈</div>
+              <h4 className="text-xl font-bold text-neutral-900 mb-2">Results-Driven</h4>
+              <p className="text-sm text-neutral-600">
+                Measurable outcomes you can see and track
+              </p>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>

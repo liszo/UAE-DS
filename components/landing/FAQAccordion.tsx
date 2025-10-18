@@ -17,7 +17,7 @@ export function FAQAccordion({ faqs, className = '' }: FAQAccordionProps) {
   }
 
   return (
-    <section className={`py-16 sm:py-24 px-4 sm:px-6 lg:px-8 ${className}`}>
+    <section className={`py-12 sm:py-20 px-3 sm:px-6 lg:px-8 ${className}`}>
       <div className="container mx-auto max-w-4xl">
         {/* Section Header */}
         <motion.div

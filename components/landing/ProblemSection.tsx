@@ -28,7 +28,7 @@ export function ProblemSection({ title, painPoints, className = '' }: ProblemSec
   }
 
   return (
-    <section className={`py-16 sm:py-24 px-4 sm:px-6 lg:px-8 ${className}`}>
+    <section className={`py-12 sm:py-20 px-3 sm:px-6 lg:px-8 ${className}`}>
       <div className="container mx-auto max-w-7xl">
         {/* Section Header */}
         <motion.div
