@@ -64,11 +64,18 @@ export default function Process() {
   const [expandedStep, setExpandedStep] = useState<number | null>(null);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      // Open first accordion by default on mobile
+      if (mobile && expandedStep === null) {
+        setExpandedStep(0);
+      }
+    };
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  }, [expandedStep]);
 
   // Auto-advance on desktop
   useEffect(() => {
@@ -164,32 +171,32 @@ export default function Process() {
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                       >
-                        <div className="pt-4 border-t border-white/10 mt-4">
-                          <p className="text-gray-300 text-sm mb-4 leading-relaxed">
+                        <div className="pt-4 border-t border-white/20 mt-4">
+                          <p className="text-white text-base mb-5 leading-relaxed font-medium">
                             {step.description}
                           </p>
-                          <div className="space-y-2">
+                          <div className="space-y-3">
                             {step.details.map((detail, detailIndex) => (
                               <motion.div
                                 key={detailIndex}
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: detailIndex * 0.1 }}
-                                className="flex items-center gap-2"
+                                className="flex items-center gap-3"
                               >
-                                <div className={`w-1.5 h-1.5 bg-gradient-to-r ${step.color} rounded-full`} />
-                                <span className="text-gray-400 text-sm">{detail}</span>
+                                <div className={`w-2 h-2 bg-gradient-to-r ${step.color} rounded-full flex-shrink-0`} />
+                                <span className="text-gray-200 text-base leading-relaxed">{detail}</span>
                               </motion.div>
                             ))}
                           </div>
                           
                           {/* Progress for expanded step */}
-                          <div className="mt-4 pt-3 border-t border-white/5">
-                            <div className="flex justify-between text-xs text-gray-500 mb-2">
+                          <div className="mt-5 pt-4 border-t border-white/10">
+                            <div className="flex justify-between text-sm text-gray-300 mb-2 font-medium">
                               <span>Step {index + 1} of {processSteps.length}</span>
                               <span>{Math.round(((index + 1) / processSteps.length) * 100)}%</span>
                             </div>
-                            <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                               <motion.div
                                 className={`h-full bg-gradient-to-r ${step.color}`}
                                 initial={{ width: 0 }}

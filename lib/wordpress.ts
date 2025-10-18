@@ -101,27 +101,95 @@ async function fetchAllItemsViaProxy(endpoint: string): Promise<any[]> {
  return allItems;
 }
 
+// Comprehensive HTML entity decoder - handles both named and numeric entities
+function decodeHtmlEntities(text: string): string {
+  if (!text || typeof text !== 'string') return '';
+  
+  // Create a map of common HTML entities
+  const entities: { [key: string]: string } = {
+    '&amp;': '&',
+    '&#038;': '&',
+    '&#38;': '&',
+    '&lt;': '<',
+    '&#060;': '<',
+    '&#60;': '<',
+    '&gt;': '>',
+    '&#062;': '>',
+    '&#62;': '>',
+    '&quot;': '"',
+    '&#034;': '"',
+    '&#34;': '"',
+    '&apos;': "'",
+    '&#039;': "'",
+    '&#39;': "'",
+    '&nbsp;': ' ',
+    '&#160;': ' ',
+    '&hellip;': '…',
+    '&#8230;': '…',
+    '&mdash;': '—',
+    '&#8212;': '—',
+    '&ndash;': '–',
+    '&#8211;': '–',
+    '&rsquo;': '\u2019',
+    '&#8217;': '\u2019',
+    '&lsquo;': '\u2018',
+    '&#8216;': '\u2018',
+    '&rdquo;': '"',
+    '&#8221;': '"',
+    '&ldquo;': '"',
+    '&#8220;': '"',
+    '&reg;': '®',
+    '&#174;': '®',
+    '&copy;': '©',
+    '&#169;': '©',
+    '&trade;': '™',
+    '&#8482;': '™',
+    '&cent;': '¢',
+    '&#162;': '¢',
+    '&pound;': '£',
+    '&#163;': '£',
+    '&euro;': '€',
+    '&#8364;': '€',
+    '&yen;': '¥',
+    '&#165;': '¥',
+    '&deg;': '°',
+    '&#176;': '°',
+    '&times;': '×',
+    '&#215;': '×',
+    '&divide;': '÷',
+    '&#247;': '÷',
+    '&frac14;': '¼',
+    '&#188;': '¼',
+    '&frac12;': '½',
+    '&#189;': '½',
+    '&frac34;': '¾',
+    '&#190;': '¾',
+  };
+
+  // Replace known entities
+  let decoded = text;
+  for (const [entity, char] of Object.entries(entities)) {
+    decoded = decoded.replace(new RegExp(entity, 'g'), char);
+  }
+
+  // Decode any remaining numeric entities (decimal)
+  decoded = decoded.replace(/&#(\d+);/g, (match, dec) => {
+    return String.fromCharCode(parseInt(dec, 10));
+  });
+
+  // Decode any remaining numeric entities (hexadecimal)
+  decoded = decoded.replace(/&#x([0-9a-fA-F]+);/g, (match, hex) => {
+    return String.fromCharCode(parseInt(hex, 16));
+  });
+
+  return decoded;
+}
+
 // Enhanced utility function to clean HTML entities and tags
 export function cleanHtmlContent(content: string): string {
  if (!content || typeof content !== 'string') return '';
  
- return content
- // Fix common HTML entities
- .replace(/&#038;/g, '&')
- .replace(/&amp;/g, '&')
- .replace(/&lt;/g, '<')
- .replace(/&gt;/g, '>')
- .replace(/&quot;/g, '"')
- .replace(/&#039;/g, "'")
- .replace(/&apos;/g, "'")
- .replace(/&nbsp;/g, ' ')
- .replace(/&hellip;/g, '...')
- .replace(/&mdash;/g, '—')
- .replace(/&ndash;/g, '–')
- .replace(/&rsquo;/g, "'")
- .replace(/&lsquo;/g, "'")
- .replace(/&rdquo;/g, '"')
- .replace(/&ldquo;/g, '"')
+ return decodeHtmlEntities(content)
  // Remove HTML tags
  .replace(/<[^>]*>/g, '')
  .trim();
@@ -876,7 +944,8 @@ export async function getTargetAudienceName(id: number): Promise<string> {
  }
  
  const data = await safeJsonParse(response);
- return cleanHtmlContent(data.name || `Audience #${id}`);
+ // Decode HTML entities in taxonomy name
+ return decodeHtmlEntities(data.name || `Audience #${id}`);
  
  } catch (error) {
  console.error('💥 Error fetching target audience name:', error);
@@ -901,7 +970,8 @@ export async function getCategoryName(id: number, taxonomy: string): Promise<str
  }
  
  const data = await safeJsonParse(response);
- return cleanHtmlContent(data.name || `Category #${id}`);
+ // Decode HTML entities in taxonomy name
+ return decodeHtmlEntities(data.name || `Category #${id}`);
  
  } catch (error) {
  console.error('💥 Error fetching category name:', error);
@@ -1007,7 +1077,13 @@ export async function getServiceCategories(limit?: number) {
  const categories = await fetchAllItemsViaProxy('service_category');
  console.log('✅ Service categories fetched:', categories?.length || 0, 'items');
  
- return limit ? categories.slice(0, limit) : categories;
+ // Clean HTML entities from category names
+ const cleanedCategories = categories.map((cat: any) => ({
+ ...cat,
+ name: cleanHtmlContent(cat.name || '')
+ }));
+ 
+ return limit ? cleanedCategories.slice(0, limit) : cleanedCategories;
  } catch (error) {
  console.error('💥 Error fetching service categories:', error);
  return [];
@@ -1022,7 +1098,13 @@ export async function getCaseIndustries(limit?: number) {
  const industries = await fetchAllItemsViaProxy('case_category');
  console.log('✅ Case industries fetched:', industries?.length || 0, 'items');
  
- return limit ? industries.slice(0, limit) : industries;
+ // Clean HTML entities from industry names
+ const cleanedIndustries = industries.map((ind: any) => ({
+ ...ind,
+ name: cleanHtmlContent(ind.name || '')
+ }));
+ 
+ return limit ? cleanedIndustries.slice(0, limit) : cleanedIndustries;
  } catch (error) {
  console.error('💥 Error fetching case industries:', error);
  return [];
@@ -1037,7 +1119,13 @@ export async function getSolutionCategories(limit?: number) {
  const categories = await fetchAllItemsViaProxy('solution_category');
  console.log('✅ Solution categories fetched:', categories?.length || 0, 'items');
  
- return limit ? categories.slice(0, limit) : categories;
+ // Clean HTML entities from category names
+ const cleanedCategories = categories.map((cat: any) => ({
+ ...cat,
+ name: cleanHtmlContent(cat.name || '')
+ }));
+ 
+ return limit ? cleanedCategories.slice(0, limit) : cleanedCategories;
  } catch (error) {
  console.error('💥 Error fetching solution categories:', error);
  return [];
@@ -1052,7 +1140,13 @@ export async function getToolCategories(limit?: number) {
  const categories = await fetchAllItemsViaProxy('tool_category');
  console.log('✅ Tool categories fetched:', categories?.length || 0, 'items');
  
- return limit ? categories.slice(0, limit) : categories;
+ // Clean HTML entities from category names
+ const cleanedCategories = categories.map((cat: any) => ({
+ ...cat,
+ name: cleanHtmlContent(cat.name || '')
+ }));
+ 
+ return limit ? cleanedCategories.slice(0, limit) : cleanedCategories;
  } catch (error) {
  console.error('💥 Error fetching tool categories:', error);
  return [];
@@ -1067,7 +1161,13 @@ export async function getToolTypes(limit?: number) {
  const types = await fetchAllItemsViaProxy('tool_type');
  console.log('✅ Tool types fetched:', types?.length || 0, 'items');
  
- return limit ? types.slice(0, limit) : types;
+ // Clean HTML entities from type names
+ const cleanedTypes = types.map((type: any) => ({
+ ...type,
+ name: cleanHtmlContent(type.name || '')
+ }));
+ 
+ return limit ? cleanedTypes.slice(0, limit) : cleanedTypes;
  } catch (error) {
  console.error('💥 Error fetching tool types:', error);
  return [];
@@ -1083,7 +1183,13 @@ export async function getTargetAudiences(limit?: number) {
  const audiences = await fetchAllItemsViaProxy('target_audience');
  console.log('✅ Target audiences fetched:', audiences?.length || 0, 'items');
  
- return limit ? audiences.slice(0, limit) : audiences;
+ // Clean HTML entities from audience names
+ const cleanedAudiences = audiences.map((aud: any) => ({
+ ...aud,
+ name: cleanHtmlContent(aud.name || '')
+ }));
+ 
+ return limit ? cleanedAudiences.slice(0, limit) : cleanedAudiences;
  } catch (error) {
  console.error('💥 Error fetching target audiences:', error);
  return [];
