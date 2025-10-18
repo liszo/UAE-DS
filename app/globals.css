@@ -64,3 +64,15 @@
 .animate-gradient {
   animation: gradient 3s ease infinite;
 }
+
+/* Landing Page WhatsApp Widget Positioning */
+.landing-page-widget button {
+  bottom: 80px !important;
+  transition: bottom 0.3s ease !important;
+}
+
+@media (min-width: 1024px) {
+  .landing-page-widget button {
+    bottom: 24px !important;
+  }
+}

@@ -23,6 +23,8 @@ const sections: Section[] = [
 export function SectionNavigator() {
   const [activeSection, setActiveSection] = useState('hero')
   const [isExpanded, setIsExpanded] = useState(false)
+  const [showSectionTooltip, setShowSectionTooltip] = useState(false)
+  const [hoveredSection, setHoveredSection] = useState<string | null>(null)
 
   // Track active section based on scroll position
   useEffect(() => {
@@ -36,7 +38,12 @@ export function SectionNavigator() {
           const offsetBottom = offsetTop + element.offsetHeight
 
           if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
-            setActiveSection(section.id)
+            if (section.id !== activeSection) {
+              setActiveSection(section.id)
+              // Show tooltip briefly when section changes
+              setShowSectionTooltip(true)
+              setTimeout(() => setShowSectionTooltip(false), 2000)
+            }
             break
           }
         }
@@ -47,7 +54,32 @@ export function SectionNavigator() {
     handleScroll() // Check initial position
 
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [activeSection])
+
+  // Adjust WhatsApp widget position based on expanded state
+  useEffect(() => {
+    // Try multiple selectors to find WhatsApp widget button
+    const whatsappButton = document.querySelector(
+      '.landing-page-widget button, .whatsapp-widget button, button.fixed.bottom-6.right-6'
+    ) as HTMLElement
+    
+    if (whatsappButton) {
+      if (isExpanded) {
+        // Move up when expanded (add space for expanded menu ~200px)
+        whatsappButton.style.bottom = '220px'
+      } else {
+        // Move to above collapsed bar (this is already set in CSS, but we can override if needed)
+        whatsappButton.style.bottom = '80px'
+      }
+    }
+
+    return () => {
+      // Cleanup - return to default collapsed state
+      if (whatsappButton) {
+        whatsappButton.style.bottom = '80px'
+      }
+    }
+  }, [isExpanded])
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
@@ -76,6 +108,8 @@ export function SectionNavigator() {
           <motion.button
             key={section.id}
             onClick={() => scrollToSection(section.id)}
+            onMouseEnter={() => setHoveredSection(section.id)}
+            onMouseLeave={() => setHoveredSection(null)}
             className="group relative"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
@@ -84,26 +118,68 @@ export function SectionNavigator() {
             <div
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 activeSection === section.id
-                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 scale-150'
+                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 scale-150 shadow-lg'
                   : 'bg-neutral-400 hover:bg-neutral-600'
               }`}
             />
 
-            {/* Tooltip on Hover */}
+            {/* Enhanced Tooltip on Hover */}
             <AnimatePresence>
-              <motion.div
-                initial={{ opacity: 0, x: -10 }}
-                whileHover={{ opacity: 1, x: 0 }}
-                className="absolute left-6 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-              >
-                <div className="flex items-center gap-2 px-4 py-2 bg-neutral-900 text-white rounded-lg shadow-xl whitespace-nowrap">
-                  <span>{section.icon}</span>
-                  <span className="text-sm font-semibold">{section.label}</span>
-                </div>
-              </motion.div>
+              {hoveredSection === section.id && (
+                <motion.div
+                  initial={{ opacity: 0, x: -10, scale: 0.9 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: -10, scale: 0.9 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute left-8 top-1/2 -translate-y-1/2 pointer-events-none z-50"
+                >
+                  <div className="flex items-center gap-3 px-5 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl shadow-2xl whitespace-nowrap border-2 border-white/20">
+                    <motion.span 
+                      className="text-2xl"
+                      animate={{ rotate: [0, -10, 10, -10, 0] }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      {section.icon}
+                    </motion.span>
+                    <span className="text-sm font-bold tracking-wide">{section.label}</span>
+                  </div>
+                  {/* Arrow pointer */}
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 w-0 h-0 border-t-8 border-t-transparent border-b-8 border-b-transparent border-r-8 border-r-blue-600" />
+                </motion.div>
+              )}
             </AnimatePresence>
           </motion.button>
         ))}
+        
+        {/* Auto-show Tooltip on Section Change */}
+        <AnimatePresence>
+          {showSectionTooltip && (
+            <motion.div
+              initial={{ opacity: 0, x: -20, scale: 0.8 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: -20, scale: 0.8 }}
+              transition={{ duration: 0.3 }}
+              className="fixed left-24 top-1/2 -translate-y-1/2 pointer-events-none z-50"
+            >
+              <div className="flex items-center gap-4 px-6 py-4 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white rounded-2xl shadow-2xl border-2 border-white/30">
+                <motion.span 
+                  className="text-4xl"
+                  animate={{ 
+                    scale: [1, 1.2, 1],
+                    rotate: [0, -15, 15, -15, 0]
+                  }}
+                  transition={{ duration: 0.6 }}
+                >
+                  {sections.find(s => s.id === activeSection)?.icon}
+                </motion.span>
+                <div>
+                  <div className="text-xs font-medium text-white/80 uppercase tracking-wider">Now Viewing</div>
+                  <div className="text-xl font-bold">{sections.find(s => s.id === activeSection)?.label}</div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.nav>
 
       {/* Mobile Version - Bottom Bar */}
@@ -186,4 +262,3 @@ export function SectionNavigator() {
     </>
   )
 }
-

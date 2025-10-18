@@ -1,5 +1,6 @@
 import { ServiceLandingPageData } from '@/lib/types/landing-page'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { 
   LandingHero, 
   UrgencyModal, 
@@ -12,6 +13,9 @@ import {
   SectionNavigator,
 } from '@/components/landing'
 
+// Dynamically import ChatWidget
+const ChatWidget = dynamic(() => import('@/components/ChatWidget'), { ssr: false })
+
 interface LandingPageTemplateProps {
   data: ServiceLandingPageData
 }
@@ -21,6 +25,11 @@ export function LandingPageTemplate({ data }: LandingPageTemplateProps) {
     <div className="min-h-screen bg-white dark:bg-white">
       {/* Section Navigator */}
       <SectionNavigator />
+
+      {/* WhatsApp Chat Widget - Adjusted for landing pages */}
+      <div className="landing-page-widget">
+        <ChatWidget />
+      </div>
 
       {/* Urgency Modal - Bottom Left */}
       <UrgencyModal
