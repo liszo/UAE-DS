@@ -210,7 +210,7 @@ export default function Hero() {
       {/* Content */}
       <motion.div 
         style={{ y: isMobile ? 0 : y, opacity }}
-        className={`relative z-10 container mx-auto px-4 md:px-6 ${isMobile ? 'pt-8' : ''}`}
+        className={`relative z-20 container mx-auto px-4 md:px-6 ${isMobile ? 'pt-8' : ''}`}
       >
         <div className={`${isMobile ? 'text-center space-y-8' : 'grid lg:grid-cols-2 gap-8 md:gap-12 items-center'}`}>
           {/* Left Content */}
@@ -360,14 +360,14 @@ export default function Hero() {
               </div>
             ) : (
               // Desktop: Floating positioned cards
-              <div className="relative h-[600px] z-10">
+              <div className="relative h-[600px] z-20">
                 {floatingCards.map((card, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.6 + index * 0.2 }}
-                    className="absolute z-10"
+                    className="absolute z-20"
                     style={{
                       top: `${index * 30}%`,
                       right: `${index * 15}%`,

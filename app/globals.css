@@ -65,12 +65,14 @@
   animation: gradient 3s ease infinite;
 }
 
-/* Fix for gradient text clipping */
+/* Fix for gradient text clipping - Site-wide */
 .gradient-text,
+[class*="gradient-text"],
 [style*="background-clip: text"],
-[style*="WebkitBackgroundClip: text"] {
-  line-height: 1.2 !important;
-  padding-bottom: 0.1em !important;
+[style*="WebkitBackgroundClip: text"],
+[style*="-webkit-background-clip: text"] {
+  line-height: 1.3 !important;
+  padding-bottom: 0.15em !important;
   overflow: visible !important;
   display: inline-block !important;
 }
@@ -78,10 +80,41 @@
 /* Additional fix for text with descenders (g, j, p, q, y) */
 h1, h2, h3, h4, h5, h6 {
   overflow: visible !important;
+  line-height: 1.3 !important;
 }
 
 h1 span, h2 span, h3 span, h4 span, h5 span, h6 span {
   overflow: visible !important;
+  padding-bottom: 0.08em !important;
+}
+
+/* Ensure all first sections extend behind the header and account for it */
+main > section:first-of-type,
+main > div:first-of-type {
+  padding-top: 6rem !important; /* 96px on mobile - extra space for header */
+  min-height: 100vh;
+}
+
+@media (min-width: 1024px) {
+  main > section:first-of-type,
+  main > div:first-of-type {
+    padding-top: 7rem !important; /* 112px on desktop */
+  }
+}
+
+/* Ensure body and html have black background to prevent white gaps */
+html {
+  background: #000000;
+}
+
+body {
+  background: #000000;
+}
+
+/* Fix for pages with explicit background colors */
+main {
+  background: transparent;
+  min-height: 100vh;
 }
 
 /* Landing Page WhatsApp Widget Positioning */
