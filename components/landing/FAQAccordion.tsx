@@ -73,7 +73,7 @@ export function FAQAccordion({ faqs, className = '' }: FAQAccordionProps) {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                    transition={{ duration: 0.3, ease: [0.4, 0, 0.6, 1] }}
                     className="overflow-hidden"
                   >
                     <div className="px-6 pb-6 pt-2">

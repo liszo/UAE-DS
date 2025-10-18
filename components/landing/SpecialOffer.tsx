@@ -31,7 +31,7 @@ export function SpecialOffer({ offer, ctaLink, className = '' }: SpecialOfferPro
                 'radial-gradient(circle at 0% 0%, rgba(255,255,255,0.1) 0%, transparent 50%)',
               ]
             }}
-            transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
+            transition={{ duration: 5, repeat: Infinity, ease: [0, 0, 1, 1] }}
             className="absolute inset-0"
           />
 

@@ -52,7 +52,7 @@ export function LandingHero({
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
+            transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
             className="text-center lg:text-left"
           >
             {/* Urgency Badge */}
@@ -128,7 +128,7 @@ export function LandingHero({
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
+            transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1], delay: 0.2 }}
             className="relative"
           >
             <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl ring-1 ring-neutral-200 dark:ring-neutral-800">

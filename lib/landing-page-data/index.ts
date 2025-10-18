@@ -14,23 +14,36 @@ export { bookingSystemData } from './online-booking-systems'
 export { aiAutomationData } from './ai-process-automation'
 
 import { ServiceLandingPageData } from '@/lib/types/landing-page'
+import { googleAdsData } from './google-ads-management'
+import { seoData } from './search-engine-optimization-seo'
+import { websiteSecurityData } from './website-security-services'
+import { websiteMigrationData } from './website-migration-services'
+import { ecommerceData } from './e-commerce-enhancement-marketing'
+import { uiUxData } from './ui-ux-design-branding'
+import { performanceData } from './website-performance-optimization'
+import { maintenanceData } from './website-maintenance-support'
+import { aiChatbotData } from './ai-chatbot-implementation'
+import { wordpressPluginData } from './custom-wordpress-plugin-development'
+import { websiteDesignData } from './website-design-redesign'
+import { bookingSystemData } from './online-booking-systems'
+import { aiAutomationData } from './ai-process-automation'
 
 // Helper to get service data by slug
 export function getServiceDataBySlug(slug: string): ServiceLandingPageData | null {
   const dataMap: Record<string, ServiceLandingPageData> = {
-    'google-ads-management': require('./google-ads-management').googleAdsData,
-    'search-engine-optimization-seo': require('./search-engine-optimization-seo').seoData,
-    'website-security-services': require('./website-security-services').websiteSecurityData,
-    'website-migration-services': require('./website-migration-services').websiteMigrationData,
-    'e-commerce-enhancement-marketing': require('./e-commerce-enhancement-marketing').ecommerceData,
-    'ui-ux-design-branding': require('./ui-ux-design-branding').uiUxData,
-    'website-performance-optimization': require('./website-performance-optimization').performanceData,
-    'website-maintenance-support': require('./website-maintenance-support').maintenanceData,
-    'ai-chatbot-implementation': require('./ai-chatbot-implementation').aiChatbotData,
-    'custom-wordpress-plugin-development': require('./custom-wordpress-plugin-development').wordpressPluginData,
-    'website-design-redesign': require('./website-design-redesign').websiteDesignData,
-    'online-booking-systems': require('./online-booking-systems').bookingSystemData,
-    'ai-process-automation': require('./ai-process-automation').aiAutomationData,
+    'google-ads-management': googleAdsData,
+    'search-engine-optimization-seo': seoData,
+    'website-security-services': websiteSecurityData,
+    'website-migration-services': websiteMigrationData,
+    'e-commerce-enhancement-marketing': ecommerceData,
+    'ui-ux-design-branding': uiUxData,
+    'website-performance-optimization': performanceData,
+    'website-maintenance-support': maintenanceData,
+    'ai-chatbot-implementation': aiChatbotData,
+    'custom-wordpress-plugin-development': wordpressPluginData,
+    'website-design-redesign': websiteDesignData,
+    'online-booking-systems': bookingSystemData,
+    'ai-process-automation': aiAutomationData,
   }
   
   return dataMap[slug] || null

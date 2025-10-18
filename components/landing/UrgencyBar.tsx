@@ -30,7 +30,7 @@ export function UrgencyBar({
           <div className="flex items-center gap-3">
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
-              transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+              transition={{ repeat: Infinity, duration: 2, ease: [0.4, 0, 0.6, 1] }}
               className="flex items-center justify-center w-2 h-2 bg-white rounded-full"
             >
               <span className="absolute w-4 h-4 bg-white rounded-full opacity-75 animate-ping" />

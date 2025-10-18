@@ -24,7 +24,7 @@ export function SolutionProcess({ title, subtitle, steps, className = '' }: Solu
     visible: { 
       opacity: 1, 
       x: 0,
-      transition: { duration: 0.6, ease: 'easeOut' }
+      transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] }
     }
   }
 
