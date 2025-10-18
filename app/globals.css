@@ -65,6 +65,25 @@
   animation: gradient 3s ease infinite;
 }
 
+/* Fix for gradient text clipping */
+.gradient-text,
+[style*="background-clip: text"],
+[style*="WebkitBackgroundClip: text"] {
+  line-height: 1.2 !important;
+  padding-bottom: 0.1em !important;
+  overflow: visible !important;
+  display: inline-block !important;
+}
+
+/* Additional fix for text with descenders (g, j, p, q, y) */
+h1, h2, h3, h4, h5, h6 {
+  overflow: visible !important;
+}
+
+h1 span, h2 span, h3 span, h4 span, h5 span, h6 span {
+  overflow: visible !important;
+}
+
 /* Landing Page WhatsApp Widget Positioning */
 /* Target the ChatWidget from main layout when on landing pages */
 .landing-page ~ button.fixed[class*="bottom-6"][class*="right-6"] {

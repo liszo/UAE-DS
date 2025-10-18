@@ -230,7 +230,7 @@ export default function Hero() {
 
             <h1 
               ref={headingRef}
-              className={`font-black mb-4 md:mb-6 leading-tight ${
+              className={`font-black mb-4 md:mb-6 ${
                 isMobile 
                   ? 'text-4xl sm:text-5xl' 
                   : 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl'
@@ -238,11 +238,20 @@ export default function Hero() {
               style={{ 
                 fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
                 fontWeight: '900',
-                letterSpacing: '-0.02em'
+                letterSpacing: '-0.02em',
+                lineHeight: '1.2',
+                paddingBottom: '0.1em'
               }}
             >
               {['We', 'craft', 'digital', 'experiences'].map((word, wordIndex) => (
-                <span key={wordIndex} className={`inline-block ${isMobile ? 'mr-3 mb-1' : 'mr-2 md:mr-4'}`}>
+                <span 
+                  key={wordIndex} 
+                  className={`inline-block ${isMobile ? 'mr-3 mb-1' : 'mr-2 md:mr-4'}`}
+                  style={{ 
+                    paddingBottom: '0.05em',
+                    overflow: 'visible'
+                  }}
+                >
                   {word.split('').map((letter, letterIndex) => (
                     <span
                       key={letterIndex}
@@ -256,6 +265,9 @@ export default function Hero() {
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
                         textShadow: wordIndex >= 2 ? '0 0 30px rgba(139, 92, 246, 0.5)' : 'none',
+                        paddingBottom: '0.08em',
+                        overflow: 'visible',
+                        position: 'relative'
                       }}
                     >
                       {letter}
@@ -348,14 +360,14 @@ export default function Hero() {
               </div>
             ) : (
               // Desktop: Floating positioned cards
-              <div className="relative h-[600px]">
+              <div className="relative h-[600px] z-10">
                 {floatingCards.map((card, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.6 + index * 0.2 }}
-                    className="absolute"
+                    className="absolute z-10"
                     style={{
                       top: `${index * 30}%`,
                       right: `${index * 15}%`,
