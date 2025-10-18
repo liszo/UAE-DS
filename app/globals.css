@@ -66,13 +66,26 @@
 }
 
 /* Landing Page WhatsApp Widget Positioning */
-.landing-page-widget button {
+/* Target the ChatWidget from main layout when on landing pages */
+.landing-page ~ button.fixed[class*="bottom-6"][class*="right-6"] {
   bottom: 80px !important;
   transition: bottom 0.3s ease !important;
 }
 
 @media (min-width: 1024px) {
-  .landing-page-widget button {
+  .landing-page ~ button.fixed[class*="bottom-6"][class*="right-6"] {
+    bottom: 24px !important;
+  }
+}
+
+/* Alternative selector for better specificity */
+body:has(.landing-page) button.fixed.bottom-6.right-6.z-50 {
+  bottom: 80px !important;
+  transition: bottom 0.3s ease !important;
+}
+
+@media (min-width: 1024px) {
+  body:has(.landing-page) button.fixed.bottom-6.right-6.z-50 {
     bottom: 24px !important;
   }
 }

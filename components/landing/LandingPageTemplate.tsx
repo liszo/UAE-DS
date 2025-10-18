@@ -10,7 +10,6 @@ import {
   SpecialOffer,
   FAQAccordion,
   SectionNavigator,
-  LandingPageChatWidget,
 } from '@/components/landing'
 
 interface LandingPageTemplateProps {
@@ -19,12 +18,9 @@ interface LandingPageTemplateProps {
 
 export function LandingPageTemplate({ data }: LandingPageTemplateProps) {
   return (
-    <div className="min-h-screen bg-white dark:bg-white">
+    <div className="min-h-screen bg-white dark:bg-white landing-page">
       {/* Section Navigator */}
       <SectionNavigator />
-
-      {/* WhatsApp Chat Widget - Adjusted for landing pages */}
-      <LandingPageChatWidget />
 
       {/* Urgency Modal - Bottom Left */}
       <UrgencyModal

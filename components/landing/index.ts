@@ -13,5 +13,4 @@ export { CountdownTimer } from './CountdownTimer'
 export { TrustBadges } from './TrustBadges'
 export { MetricsDisplay } from './MetricsDisplay'
 export { SectionNavigator } from './SectionNavigator'
-export { LandingPageChatWidget } from './LandingPageChatWidget'
 

@@ -58,41 +58,54 @@ export function SectionNavigator() {
 
   // Adjust WhatsApp widget position based on expanded state
   useEffect(() => {
-    // Try multiple selectors to find WhatsApp widget button
-    const whatsappButton = document.querySelector(
-      '.landing-page-widget button, .whatsapp-widget button, button.fixed.bottom-6.right-6'
-    ) as HTMLElement
+    // Only run on mobile
+    if (window.innerWidth >= 1024) return
+
+    // Find WhatsApp widget button with multiple attempts
+    const findWhatsAppButton = () => {
+      return document.querySelector(
+        'button.fixed.bottom-6.right-6.z-50, button.fixed[class*="right-6"][class*="z-50"], main ~ button.fixed'
+      ) as HTMLElement
+    }
+
+    const whatsappButton = findWhatsAppButton()
     
     if (whatsappButton) {
       if (isExpanded) {
-        // Move up when expanded (add space for expanded menu ~200px)
-        whatsappButton.style.bottom = '220px'
+        // Move up when expanded (add space for expanded menu ~220px)
+        whatsappButton.style.setProperty('bottom', '220px', 'important')
       } else {
-        // Move to above collapsed bar (this is already set in CSS, but we can override if needed)
-        whatsappButton.style.bottom = '80px'
+        // Move to above collapsed bar
+        whatsappButton.style.setProperty('bottom', '80px', 'important')
       }
     }
 
     return () => {
       // Cleanup - return to default collapsed state
-      if (whatsappButton) {
-        whatsappButton.style.bottom = '80px'
+      const btn = findWhatsAppButton()
+      if (btn && window.innerWidth < 1024) {
+        btn.style.setProperty('bottom', '80px', 'important')
       }
     }
   }, [isExpanded])
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      const yOffset = -80 // Offset for fixed header
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
-
-      window.scrollTo({
-        top: y,
-        behavior: 'smooth'
-      })
-    }
+    // Close menu immediately for better UX
     setIsExpanded(false)
+    
+    // Small delay to ensure menu closes before scrolling
+    setTimeout(() => {
+      const element = document.getElementById(sectionId)
+      if (element) {
+        const yOffset = -100 // Offset for fixed header (increased for mobile)
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
+
+        window.scrollTo({
+          top: y,
+          behavior: 'smooth'
+        })
+      }
+    }, 100)
   }
 
   return (
