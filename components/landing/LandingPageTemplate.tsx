@@ -9,6 +9,7 @@ import {
   WhyUsGrid,
   SpecialOffer,
   FAQAccordion,
+  SectionNavigator,
 } from '@/components/landing'
 
 interface LandingPageTemplateProps {
@@ -18,6 +19,9 @@ interface LandingPageTemplateProps {
 export function LandingPageTemplate({ data }: LandingPageTemplateProps) {
   return (
     <div className="min-h-screen bg-white dark:bg-white">
+      {/* Section Navigator */}
+      <SectionNavigator />
+
       {/* Urgency Modal - Bottom Left */}
       <UrgencyModal
         message={`${data.offer.discount} - ${data.offer.deadline}`}
@@ -27,65 +31,79 @@ export function LandingPageTemplate({ data }: LandingPageTemplateProps) {
       />
 
       {/* Hero Section */}
-      <LandingHero
-        headline={data.headline}
-        subtitle={data.subtitle}
-        videoUrl={data.videoUrl}
-        videoPosterImage={data.videoPosterImage}
-        cta={{
-          primary: data.cta.primary,
-          secondary: 'Learn More',
-          primaryLink: 'https://uaedigitalsolution.agency/contact',
-          secondaryLink: data.servicePageUrl
-        }}
-        heroStats={data.heroStats}
-        trustBadges={data.trustBadges}
-      />
+      <div id="hero">
+        <LandingHero
+          headline={data.headline}
+          subtitle={data.subtitle}
+          videoUrl={data.videoUrl}
+          videoPosterImage={data.videoPosterImage}
+          cta={{
+            primary: data.cta.primary,
+            secondary: 'Learn More',
+            primaryLink: 'https://uaedigitalsolution.agency/contact',
+            secondaryLink: data.servicePageUrl
+          }}
+          heroStats={data.heroStats}
+          trustBadges={data.trustBadges}
+        />
+      </div>
 
       {/* Problem Section */}
-      <ProblemSection
-        title={data.problemSectionTitle}
-        painPoints={data.painPoints}
-        className="bg-neutral-50"
-      />
+      <div id="problem">
+        <ProblemSection
+          title={data.problemSectionTitle}
+          painPoints={data.painPoints}
+          className="bg-neutral-50"
+        />
+      </div>
 
       {/* Solution Process */}
-      <SolutionProcess
-        title={data.solutionTitle}
-        subtitle={data.solutionSubtitle}
-        steps={data.process}
-      />
+      <div id="solution">
+        <SolutionProcess
+          title={data.solutionTitle}
+          subtitle={data.solutionSubtitle}
+          steps={data.process}
+        />
+      </div>
 
       {/* Results & Proof */}
-      <ResultsProof
-        title={data.resultsTitle}
-        metrics={data.metrics}
-        caseStudies={data.caseStudies}
-        testimonials={data.testimonials}
-        className="bg-neutral-50"
-      />
+      <div id="results">
+        <ResultsProof
+          title={data.resultsTitle}
+          metrics={data.metrics}
+          caseStudies={data.caseStudies}
+          testimonials={data.testimonials}
+          className="bg-neutral-50"
+        />
+      </div>
 
       {/* Why Us Section */}
-      <WhyUsGrid
-        title={data.whyUsTitle}
-        differentiators={data.differentiators}
-      />
+      <div id="why-us">
+        <WhyUsGrid
+          title={data.whyUsTitle}
+          differentiators={data.differentiators}
+        />
+      </div>
 
       {/* Special Offer */}
-      <SpecialOffer
-        offer={data.offer}
-        ctaLink="https://uaedigitalsolution.agency/contact"
-        className="bg-white"
-      />
+      <div id="offer">
+        <SpecialOffer
+          offer={data.offer}
+          ctaLink="https://uaedigitalsolution.agency/contact"
+          className="bg-white"
+        />
+      </div>
 
       {/* FAQ Section */}
-      <FAQAccordion
-        faqs={data.faqs}
-        className="bg-neutral-50"
-      />
+      <div id="faq">
+        <FAQAccordion
+          faqs={data.faqs}
+          className="bg-neutral-50"
+        />
+      </div>
 
       {/* Final CTA Section - Contact & Service Links */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-neutral-900 to-neutral-950">
+      <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-neutral-900 to-neutral-950">
         <div className="container mx-auto max-w-4xl text-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
             Ready to Transform Your Business?

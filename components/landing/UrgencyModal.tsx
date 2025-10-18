@@ -44,41 +44,41 @@ export function UrgencyModal({
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: -400, opacity: 0 }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          className="fixed bottom-6 left-6 z-50 max-w-sm"
+          className="fixed bottom-20 left-3 lg:bottom-6 lg:left-6 z-40 max-w-[280px] sm:max-w-sm"
         >
-          <div className="relative bg-gradient-to-r from-red-600 to-orange-600 rounded-2xl shadow-2xl p-6">
+          <div className="relative bg-gradient-to-r from-red-600 to-orange-600 rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-6">
             {/* Close Button */}
             <button
               onClick={handleClose}
-              className="absolute -top-2 -right-2 flex items-center justify-center w-8 h-8 bg-white rounded-full shadow-lg hover:bg-neutral-100 transition-colors"
+              className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 bg-white rounded-full shadow-lg hover:bg-neutral-100 transition-colors"
               aria-label="Close"
             >
-              <span className="text-neutral-600 text-xl font-bold">×</span>
+              <span className="text-neutral-600 text-lg sm:text-xl font-bold">×</span>
             </button>
 
             {/* Pulse Indicator */}
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ repeat: Infinity, duration: 2, ease: [0.4, 0, 0.6, 1] as const }}
-                className="relative flex items-center justify-center w-3 h-3 bg-white rounded-full"
+                className="relative flex items-center justify-center w-2 h-2 sm:w-3 sm:h-3 bg-white rounded-full"
               >
-                <span className="absolute w-6 h-6 bg-white rounded-full opacity-75 animate-ping" />
+                <span className="absolute w-4 h-4 sm:w-6 sm:h-6 bg-white rounded-full opacity-75 animate-ping" />
               </motion.div>
-              <span className="text-sm font-bold text-white uppercase tracking-wide">
+              <span className="text-xs sm:text-sm font-bold text-white uppercase tracking-wide">
                 Limited Time Offer
               </span>
             </div>
 
             {/* Message */}
-            <p className="text-white font-bold text-base mb-4 leading-relaxed">
+            <p className="text-white font-bold text-sm sm:text-base mb-3 sm:mb-4 leading-snug sm:leading-relaxed">
               {message}
             </p>
 
             {/* Spots Remaining */}
             {spotsRemaining && (
-              <div className="mb-4 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg">
-                <p className="text-white text-sm font-semibold text-center">
+              <div className="mb-3 sm:mb-4 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/20 backdrop-blur-sm rounded-lg">
+                <p className="text-white text-xs sm:text-sm font-semibold text-center">
                   Only {spotsRemaining} Spots Left!
                 </p>
               </div>
@@ -89,7 +89,7 @@ export function UrgencyModal({
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-full px-6 py-3 bg-white text-red-600 rounded-lg font-bold text-base hover:bg-neutral-50 transition-colors shadow-lg"
+                className="w-full px-4 py-2 sm:px-6 sm:py-3 bg-white text-red-600 rounded-lg font-bold text-sm sm:text-base hover:bg-neutral-50 transition-colors shadow-lg"
               >
                 {ctaText}
               </motion.button>

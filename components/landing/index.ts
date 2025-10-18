@@ -12,4 +12,5 @@ export { ContactForm } from './ContactForm'
 export { CountdownTimer } from './CountdownTimer'
 export { TrustBadges } from './TrustBadges'
 export { MetricsDisplay } from './MetricsDisplay'
+export { SectionNavigator } from './SectionNavigator'
 
