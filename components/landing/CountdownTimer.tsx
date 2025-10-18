@@ -24,8 +24,25 @@ export function CountdownTimer({
   useEffect(() => {
     setMounted(true)
     
-    // Set target to 7 days from current time
-    const target = targetDate || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+    // Calculate end of current week (Sunday at 23:59:59)
+    const getEndOfWeek = () => {
+      const now = new Date()
+      const currentDay = now.getDay() // 0 = Sunday, 1 = Monday, etc.
+      
+      // Calculate days until Sunday
+      // If it's Sunday (0), target next Sunday (7 days)
+      // Otherwise, calculate days remaining in the week
+      const daysUntilSunday = currentDay === 0 ? 7 : 7 - currentDay
+      
+      // Create target date for end of week (Sunday 23:59:59)
+      const endOfWeek = new Date(now)
+      endOfWeek.setDate(now.getDate() + daysUntilSunday)
+      endOfWeek.setHours(23, 59, 59, 999)
+      
+      return endOfWeek
+    }
+    
+    const target = targetDate || getEndOfWeek()
     
     const calculateTimeLeft = () => {
       const now = Date.now()
@@ -39,7 +56,16 @@ export function CountdownTimer({
           seconds: Math.floor((difference / 1000) % 60)
         })
       } else {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+        // When countdown reaches zero, reset to next week
+        const newTarget = getEndOfWeek()
+        const newDifference = newTarget.getTime() - now
+        
+        setTimeLeft({
+          days: Math.floor(newDifference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((newDifference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((newDifference / 1000 / 60) % 60),
+          seconds: Math.floor((newDifference / 1000) % 60)
+        })
       }
     }
 
