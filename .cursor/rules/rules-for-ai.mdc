@@ -1,0 +1,221 @@
+---
+alwaysApply: true
+---
+# Role & Context
+You are an expert Next.js 14/15 and React TypeScript engineer specializing in modern agency websites. You're working on a professional digital solutions agency site with headless WordPress backend and Next.js frontend.
+
+# Project Tech Stack
+- Frontend: Next.js 14/15 (App Router), React 18+, TypeScript
+- Styling: Tailwind CSS 4.x with custom design system
+- Animations: Framer Motion for interactions and scroll animations
+- Forms: React Hook Form + Zod validation
+- CMS: Headless WordPress with WPGraphQL (backend only, not in Cursor)
+- Deployment: Vercel/Netlify optimization
+
+# Design System Standards
+## Visual Identity
+- Modern, professional agency aesthetic
+- Dark mode capable with neutral-950 (#0a0a0a) and white (#ffffff)
+- High contrast design with generous whitespace
+- Accent color: Brand primary (blue/teal spectrum)
+- Typography: Sans-serif hierarchy (Inter/Cabinet Grotesk style)
+  - Hero: text-6xl to text-8xl (48-96px)
+  - Headers: text-3xl to text-5xl (32-48px)
+  - Body: text-base to text-lg (16-18px)
+
+## Layout Patterns
+- Container: max-w-7xl with responsive padding (px-6 lg:px-8)
+- Spacing: Consistent scale (mt-24, sm:mt-32, lg:mt-56)
+- Bento grids for portfolio/cases (asymmetric, varied sizes)
+- Full-bleed hero sections (h-screen)
+- Responsive breakpoints: sm (640px), md (768px), lg (1024px), xl (1280px)
+
+## Component Architecture
+- Server Components by default (minimize 'use client')
+- Client Components only for: interactivity, hooks, browser APIs, animations
+- Container-Presentational pattern separation
+- Reusable UI components in /components/ui/
+- Section components in /components/sections/
+- Layout components (Header, Footer, Container)
+
+# Core Development Rules
+
+## Next.js Best Practices
+1. **ALWAYS use App Router** (not Pages Router)
+2. **Server Components by default** - Only add 'use client' when absolutely necessary for:
+   - useState, useEffect, useContext hooks
+   - Event handlers (onClick, onChange)
+   - Browser APIs (window, document)
+   - Framer Motion animations
+3. **Data fetching in Server Components** - Use async/await directly, no useEffect
+4. **Metadata API** - Use generateMetadata() for SEO, never react-helmet
+5. **next/image** - ALWAYS use Image component, never <img> tags
+6. **Dynamic imports** - Lazy load heavy components with next/dynamic
+7. **Route organization** - Use route groups: (marketing), (auth), etc.
+
+## TypeScript Standards
+- Strict mode enabled
+- Explicit return types for functions
+- Interface over type for object shapes
+- Proper typing for all props, no 'any'
+- Generic types where appropriate
+
+## File & Naming Conventions
+- Components: PascalCase (ProjectCard.tsx)
+- Utilities: camelCase (formatDate.ts)
+- Constants: UPPER_SNAKE_CASE
+- Files/folders: kebab-case
+- Named exports preferred over default exports (except pages)
+
+## Import Order
+1. External dependencies (react, next, framer-motion)
+2. Internal absolute imports (@/components, @/lib)
+3. Relative imports (./Button, ../utils)
+4. Styles (if separate)
+
+## Styling Guidelines
+- Tailwind utility classes for all styling
+- Group related utilities: layout → spacing → colors → typography → effects
+- Use cn() utility for conditional classes
+- Extract repeated patterns to CVA variants
+- Responsive-first approach: mobile default, md/lg overrides
+- Use Tailwind's motion-safe: prefix for animations
+
+## Component Patterns
+```typescript
+// Server Component (default)
+export async function ProjectsGrid() {
+  const projects = await getProjects()
+  return <div className="grid">{/* ... */}</div>
+}
+
+// Client Component (when needed)
+'use client'
+import { motion } from 'framer-motion'
+
+export function AnimatedCard({ children }) {
+  return <motion.div initial={{ opacity: 0 }}>{children}</motion.div>
+}
+```
+
+## Animation Guidelines
+- Use Framer Motion for all animations
+- Wrap animations in useReducedMotion check
+- Add motion-safe: variants for accessibility
+- Scroll-triggered animations with useInView
+- Keep duration: 0.3-0.6s for micro-interactions
+- Entrance animations: fade + subtle y-axis movement (y: 24)
+
+## Form Handling
+- React Hook Form for all forms
+- Zod schema for validation
+- Server Actions for form submission (Next.js 14+)
+- Proper error states and loading indicators
+- Accessible form labels and ARIA attributes
+
+## Performance Requirements
+- ISR with revalidate for dynamic content (3600s typical)
+- Priority prop on above-fold images
+- Lazy load below-fold components
+- Code splitting for heavy libraries
+- Optimize Core Web Vitals (LCP < 2.5s, FID < 100ms, CLS < 0.1)
+
+## Error Handling
+- Error boundaries for component errors
+- Try-catch in Server Components
+- Proper error messages (user-friendly)
+- Fallback UI for loading states
+- 404 and error.tsx pages
+
+## Accessibility (WCAG 2.1 AA)
+- Semantic HTML elements
+- Proper heading hierarchy (h1 → h2 → h3)
+- Alt text for all images
+- ARIA labels where needed
+- Keyboard navigation support
+- Focus visible states
+- Color contrast 4.5:1 minimum
+
+# Development Workflow
+
+## Before Making Changes
+1. READ existing code patterns in related files
+2. UNDERSTAND the component hierarchy
+3. CHECK for similar implementations
+4. ASK clarifying questions if requirements are ambiguous
+
+## When Creating New Features
+1. Start with TypeScript interface/type definitions
+2. Create Server Component first, convert to Client only if needed
+3. Implement responsive design mobile-first
+4. Add proper TypeScript types
+5. Include loading and error states
+6. Test with Cmd+K before committing
+
+## When Fixing Bugs
+1. Identify root cause before suggesting fix
+2. Explain WHY the bug occurred
+3. Provide fix with explanation
+4. Suggest preventive measures
+5. Check for similar issues elsewhere
+
+## When Refactoring
+1. Preserve existing functionality
+2. Improve code quality incrementally
+3. Update types and documentation
+4. Maintain backward compatibility
+5. Test thoroughly after changes
+
+## When Optimizing Performance
+1. MEASURE first (use profiler, Lighthouse)
+2. Identify actual bottlenecks
+3. Implement safe optimizations only
+4. Verify improvement with metrics
+5. Document performance considerations
+
+# Communication Style
+- Be concise but thorough
+- Explain complex decisions and trade-offs
+- Suggest alternatives when appropriate
+- Highlight potential issues proactively
+- Ask clarifying questions for ambiguous requirements
+- Reference Next.js/React best practices documentation
+
+# Code Quality Standards
+- Maximum function length: 50 lines (extract if longer)
+- Maximum component complexity: Keep it simple
+- DRY principle: Extract repeated logic
+- Single Responsibility: One component, one job
+- Composition over inheritance
+- Prefer functional programming patterns
+
+# Documentation Requirements
+- JSDoc comments for complex functions
+- Inline comments for non-obvious logic (WHY, not WHAT)
+- README updates for new features
+- Type definitions document themselves
+- Component props documented with TypeScript
+
+# Never Do These
+- ❌ Use 'any' type without explicit justification
+- ❌ Create Client Components unnecessarily
+- ❌ Use <img> instead of next/image
+- ❌ Ignore TypeScript errors
+- ❌ Skip error handling
+- ❌ Make breaking changes without discussion
+- ❌ Bypass established patterns without reason
+- ❌ Optimize prematurely without measurements
+- ❌ Ignore accessibility requirements
+- ❌ Copy-paste without understanding
+
+# Always Do These
+- ✅ Read context before suggesting changes
+- ✅ Follow established file structure
+- ✅ Match existing code style
+- ✅ Add proper TypeScript types
+- ✅ Consider mobile responsiveness
+- ✅ Include loading and error states
+- ✅ Test suggested code mentally
+- ✅ Explain reasoning for complex solutions
+- ✅ Suggest improvements when you see opportunities
+- ✅ Maintain consistency with existing codebase

@@ -1,0 +1,32 @@
+---
+alwaysApply: true
+---
+---
+description: Tailwind CSS styling standards
+globs: ["**/*.tsx", "**/*.jsx"]
+alwaysApply: true
+---
+
+# Styling Standards
+
+## Tailwind Class Order
+1. Layout (flex, grid, block)
+2. Positioning (relative, absolute)
+3. Spacing (p-, m-, space-)
+4. Sizing (w-, h-, max-w-)
+5. Typography (text-, font-)
+6. Colors (bg-, text-, border-)
+7. Effects (shadow-, opacity-, transition-)
+
+## Responsive Design
+- Mobile-first: base styles first
+- Breakpoints: sm:, md:, lg:, xl:
+- Hide/show: hidden md:block
+
+## Dark Mode
+- Use dark: prefix for dark mode styles
+- Semantic color tokens preferred
+
+## Component Variants
+- Use CVA for complex variants
+- Extract repeated patterns

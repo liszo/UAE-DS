@@ -1,0 +1,40 @@
+---
+alwaysApply: true
+---
+---
+description: React component guidelines
+globs: ["**/*.tsx", "**/*.jsx"]
+alwaysApply: false
+---
+
+# React Component Rules
+
+## Server vs Client Components
+- Default to Server Components
+- Add 'use client' only when you need:
+  - React hooks (useState, useEffect, useContext)
+  - Event handlers (onClick, onChange, onSubmit)
+  - Browser APIs (window, document, localStorage)
+  - Framer Motion animations
+  - Third-party libraries requiring client-side
+
+## Component Structure
+```typescript
+// 1. Imports
+import { ComponentType } from 'library'
+
+// 2. Types/Interfaces
+interface Props {
+  title: string
+}
+
+// 3. Component
+export function Component({ title }: Props) {
+  return <div>{title}</div>
+}
+```
+
+## Naming
+- PascalCase for components
+- Descriptive, specific names
+- Prefix with domain: CaseCard, ServiceList, ContactForm

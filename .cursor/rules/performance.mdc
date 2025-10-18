@@ -1,0 +1,31 @@
+---
+alwaysApply: true
+---
+---
+description: Performance optimization guidelines
+globs: ["**/page.tsx", "**/layout.tsx"]
+alwaysApply: true
+---
+
+# Performance Guidelines
+
+## Image Optimization
+- ALWAYS next/image
+- priority for above-fold
+- Proper width/height
+- WebP format preferred
+
+## Code Splitting
+- Dynamic imports for heavy components
+- Lazy load below-fold content
+- Suspense boundaries
+
+## Data Fetching
+- Server Components for data fetching
+- ISR with appropriate revalidate
+- Parallel fetches when possible
+
+## Bundle Size
+- Monitor with @next/bundle-analyzer
+- Tree-shake unused code
+- Minimize client-side JavaScript
