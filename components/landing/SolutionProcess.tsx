@@ -37,14 +37,12 @@ export function SolutionProcess({ title, subtitle, steps, className = '' }: Solu
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              {title}
-            </span>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 text-neutral-900">
+            {title}
           </h2>
-          <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg text-neutral-700 max-w-3xl mx-auto">
             {subtitle}
           </p>
         </motion.div>

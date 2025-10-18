@@ -27,12 +27,10 @@ export function FAQAccordion({ faqs, className = '' }: FAQAccordionProps) {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-neutral-900 to-neutral-700 dark:from-white dark:to-neutral-300 bg-clip-text text-transparent">
-              Frequently Asked Questions
-            </span>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 text-neutral-900">
+            Frequently Asked Questions
           </h2>
-          <p className="text-lg text-neutral-600 dark:text-neutral-400">
+          <p className="text-base sm:text-lg text-neutral-700">
             Got questions? We've got answers.
           </p>
         </motion.div>

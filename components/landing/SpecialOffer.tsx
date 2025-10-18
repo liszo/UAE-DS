@@ -49,10 +49,8 @@ export function SpecialOffer({ offer, ctaLink, className = '' }: SpecialOfferPro
             </motion.div>
 
             {/* Title */}
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                Special Introductory Offer
-              </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 text-neutral-900">
+              Special Introductory Offer
             </h2>
 
             {/* Offer Details */}

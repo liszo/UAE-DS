@@ -28,14 +28,12 @@ export function ResultsProof({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-neutral-900 to-neutral-700 dark:from-white dark:to-neutral-300 bg-clip-text text-transparent">
-              {title}
-            </span>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 text-neutral-900">
+            {title}
           </h2>
-          <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg text-neutral-700 max-w-3xl mx-auto">
             Data doesn't lie. Here's what we've achieved for businesses like yours.
           </p>
         </motion.div>
@@ -46,7 +44,7 @@ export function ResultsProof({
         {/* Case Studies */}
         {caseStudies.length > 0 && (
           <div className="mb-20">
-            <h3 className="text-2xl sm:text-3xl font-bold text-center mb-12">
+            <h3 className="text-2xl sm:text-3xl font-bold text-center mb-12 text-neutral-900">
               Real Transformations
             </h3>
             
@@ -126,7 +124,7 @@ export function ResultsProof({
         {/* Testimonials */}
         {testimonials.length > 0 && (
           <div>
-            <h3 className="text-2xl sm:text-3xl font-bold text-center mb-12">
+            <h3 className="text-2xl sm:text-3xl font-bold text-center mb-12 text-neutral-900">
               What Our Clients Say
             </h3>
             
@@ -152,8 +150,8 @@ export function ResultsProof({
 
                   {/* Results Badge */}
                   {testimonial.results && (
-                    <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                      <div className="text-sm font-bold text-green-700 dark:text-green-300">
+                    <div className="mb-4 p-3 bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg shadow-md">
+                      <div className="text-sm font-bold text-white">
                         📈 {testimonial.results}
                       </div>
                     </div>

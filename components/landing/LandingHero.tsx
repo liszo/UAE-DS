@@ -73,14 +73,12 @@ export function LandingHero({
             </motion.div>
 
             {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              <span className="bg-gradient-to-r from-neutral-900 to-neutral-700 dark:from-white dark:to-neutral-300 bg-clip-text text-transparent">
-                {headline}
-              </span>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4 text-neutral-900">
+              {headline}
             </h1>
 
             {/* Subtitle */}
-            <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 mb-8 leading-relaxed">
+            <p className="text-base sm:text-lg text-neutral-700 mb-8 leading-relaxed">
               {subtitle}
             </p>
 

@@ -36,14 +36,12 @@ export function WhyUsGrid({ title, differentiators, className = '' }: WhyUsGridP
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              {title}
-            </span>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 text-neutral-900">
+            {title}
           </h2>
-          <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg text-neutral-700 max-w-3xl mx-auto">
             We're not just another agency. Here's what sets us apart.
           </p>
         </motion.div>
@@ -217,8 +215,8 @@ export function WhyUsGrid({ title, differentiators, className = '' }: WhyUsGridP
               </p>
 
               {diff.highlight && (
-                <div className="mt-4 inline-flex items-center px-3 py-1 bg-blue-100 dark:bg-blue-900/30 rounded-full">
-                  <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
+                <div className="mt-4 inline-flex items-center px-3 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full shadow-md">
+                  <span className="text-xs font-bold text-white">
                     ⭐ KEY ADVANTAGE
                   </span>
                 </div>
