@@ -91,14 +91,21 @@ h1 span, h2 span, h3 span, h4 span, h5 span, h6 span {
 /* Ensure all first sections extend behind the header and account for it */
 main > section:first-of-type,
 main > div:first-of-type {
-  padding-top: 6rem !important; /* 96px on mobile - extra space for header */
+  padding-top: 15px !important; /* 15px on mobile - minimal spacing as requested */
   min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  main > section:first-of-type,
+  main > div:first-of-type {
+    padding-top: 4.5rem !important; /* 72px on tablet */
+  }
 }
 
 @media (min-width: 1024px) {
   main > section:first-of-type,
   main > div:first-of-type {
-    padding-top: 7rem !important; /* 112px on desktop */
+    padding-top: 5rem !important; /* 80px on desktop */
   }
 }
 
